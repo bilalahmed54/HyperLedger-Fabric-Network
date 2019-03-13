@@ -1,0 +1,71 @@
+# Copyright IBM Corp. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+
+# NOTE: This is not the way a Kafka cluster would normally be deployed in production, as it is not secure
+# and is not fault tolerant. This example is a toy deployment that is only meant to exercise the Kafka code path
+# of the ordering service.
+
+version: '2'
+
+networks:
+  byfn:
+
+services:
+
+  zookeeper.vodworks.com:
+    container_name: zookeeper.vodworks.com
+    image: hyperledger/fabric-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 32181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+    - byfn
+  zookeeper1.vodworks.com:
+    container_name: zookeeper1.vodworks.com
+    image: hyperledger/fabric-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 42181
+      ZOOKEEPER_TICK_TIME: 2000
+    networks:
+    - byfn
+
+  kafka.vodworks.com:
+    container_name: kafka.vodworks.com
+    image: hyperledger/fabric-kafka
+    depends_on:
+    - zookeeper.vodworks.com
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper.vodworks.com:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka.vodworks.com:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_MESSAGE_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_MIN_INSYNC_REPLICAS=1
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=1
+    networks:
+    - byfn
+  
+  kafka1.vodworks.com:
+    container_name: kafka1.vodworks.com
+    image: hyperledger/fabric-kafka
+    depends_on:
+    - zookeeper1.vodworks.com
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper1.vodworks.com:2181
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka1.vodworks.com:9092
+      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+      - KAFKA_MESSAGE_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_REPLICA_FETCH_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
+      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
+      - KAFKA_LOG_RETENTION_MS=-1
+      - KAFKA_MIN_INSYNC_REPLICAS=1
+      - KAFKA_DEFAULT_REPLICATION_FACTOR=1
+    networks:
+    - byfn

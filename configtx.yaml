@@ -25,7 +25,7 @@ Organizations:
         ID: OrdererMSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
-        MSPDir: crypto-config/ordererOrganizations/vod.com/msp
+        MSPDir: crypto-config/ordererOrganizations/vodworks.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -49,7 +49,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: Telco1MSP
 
-        MSPDir: crypto-config/peerOrganizations/telco1.vod.com/msp
+        MSPDir: crypto-config/peerOrganizations/telco1.vodworks.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -70,7 +70,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.telco1.vod.com
+            - Host: peer1.telco1.vodworks.com
               Port: 7051
 
     - &Telco2
@@ -81,7 +81,7 @@ Organizations:
         # ID to load the MSP definition as
         ID: Telco2MSP
 
-        MSPDir: crypto-config/peerOrganizations/telco2.vod.com/msp
+        MSPDir: crypto-config/peerOrganizations/telco2.vodworks.com/msp
 
         # Policies defines the set of policies at this level of the config tree
         # For organization policies, their canonical path is usually
@@ -101,7 +101,7 @@ Organizations:
             # AnchorPeers defines the location of peers which can be used
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
-            - Host: peer0.telco2.vod.com
+            - Host: peer1.telco2.vodworks.com
               Port: 7051
 
 ################################################################################
@@ -191,6 +191,8 @@ Application: &ApplicationDefaults
             Type: ImplicitMeta
             Rule: "MAJORITY Admins"
 
+    Capabilities:
+        <<: *ApplicationCapabilities
 ################################################################################
 #
 #   SECTION: Orderer
@@ -203,10 +205,11 @@ Orderer: &OrdererDefaults
 
     # Orderer Type: The orderer implementation to start
     # Available types are "solo" and "kafka"
-    OrdererType: solo
+    OrdererType: kafka
 
     Addresses:
-        - orderer.vod.com:7050
+        - orderer.vodworks.com:7050
+        - orderer0.vodworks.com:7040
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
@@ -230,7 +233,8 @@ Orderer: &OrdererDefaults
         # Brokers: A list of Kafka brokers to which the orderer connects
         # NOTE: Use IP:port notation
         Brokers:
-            - 127.0.0.1:9092
+            - kafka.vodworks.com:9092
+            - kafka1.vodworks.com:9092
 
     # Organizations is the list of orgs which are defined as participants on
     # the orderer side of the network
@@ -319,3 +323,27 @@ Profiles:
                 - *Telco2
             Capabilities:
                 <<: *ApplicationCapabilities
+
+    SampleDevModeKafka:
+        <<: *ChannelDefaults
+        Capabilities:
+            <<: *ChannelCapabilities
+        Orderer:
+            <<: *OrdererDefaults
+            OrdererType: kafka
+            Kafka:
+                Brokers:
+                    - kafka.vodworks.com:9092
+            Organizations:
+            - *OrdererOrg
+            Capabilities:
+                <<: *OrdererCapabilities
+        Application:
+            <<: *ApplicationDefaults
+            Organizations:
+            - <<: *OrdererOrg
+        Consortiums:
+            SampleConsortium:
+                Organizations:
+                - *Telco1
+                - *Telco2

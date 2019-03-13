@@ -11,12 +11,16 @@ OrdererOrgs:
   # Orderer
   # ---------------------------------------------------------------------------
   - Name: Orderer
-    Domain: vod.com
+    Domain: vodworks.com
     # ---------------------------------------------------------------------------
     # "Specs" - See PeerOrgs below for complete description
     # ---------------------------------------------------------------------------
     Specs:
       - Hostname: orderer
+      # - Hostname: orderer1
+
+    Template:
+      Count: 1
 # ---------------------------------------------------------------------------
 # "PeerOrgs" - Definition of organizations managing peer nodes
 # ---------------------------------------------------------------------------
@@ -25,7 +29,7 @@ PeerOrgs:
   # Org1
   # ---------------------------------------------------------------------------
   - Name: Telco1
-    Domain: telco1.vod.com
+    Domain: telco1.vodworks.com
     EnableNodeOUs: true
     # ---------------------------------------------------------------------------
     # "Specs"
@@ -75,7 +79,7 @@ PeerOrgs:
   # Org2: See "Org1" for full specification
   # ---------------------------------------------------------------------------
   - Name: Telco2
-    Domain: telco2.vod.com
+    Domain: telco2.vodworks.com
     EnableNodeOUs: true
     Template:
       Count: 2

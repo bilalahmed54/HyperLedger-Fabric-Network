@@ -6,54 +6,63 @@
 version: '2'
 
 volumes:
-  orderer.vod.com:
-  peer0.telco1.vod.com:
-  peer1.telco1.vod.com:
-  peer0.telco2.vod.com:
-  peer1.telco2.vod.com:
+  orderer.vodworks.com:
+  orderer0.vodworks.com:
+  peer0.telco1.vodworks.com:
+  peer1.telco1.vodworks.com:
+  peer0.telco2.vodworks.com:
+  peer1.telco2.vodworks.com:
 
 networks:
   byfn:
 
 services:
 
-  orderer.vod.com:
+  orderer.vodworks.com:
     extends:
       file:   base/docker-compose-base.yaml
-      service: orderer.vod.com
-    container_name: orderer.vod.com
+      service: orderer.vodworks.com
+    container_name: orderer.vodworks.com
     networks:
       - byfn
 
-  peer0.telco1.vod.com:
-    container_name: peer0.telco1.vod.com
+  orderer0.vodworks.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer0.vodworks.com
+    container_name: orderer0.vodworks.com
+    networks:
+      - byfn
+  
+  peer0.telco1.vodworks.com:
+    container_name: peer0.telco1.vodworks.com
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer0.telco1.vod.com
+      service: peer0.telco1.vodworks.com
     networks:
       - byfn
 
-  peer1.telco1.vod.com:
-    container_name: peer1.telco1.vod.com
+  peer1.telco1.vodworks.com:
+    container_name: peer1.telco1.vodworks.com
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer1.telco1.vod.com
+      service: peer1.telco1.vodworks.com
     networks:
       - byfn
 
-  peer0.telco2.vod.com:
-    container_name: peer0.telco2.vod.com
+  peer0.telco2.vodworks.com:
+    container_name: peer0.telco2.vodworks.com
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer0.telco2.vod.com
+      service: peer0.telco2.vodworks.com
     networks:
       - byfn
 
-  peer1.telco2.vod.com:
-    container_name: peer1.telco2.vod.com
+  peer1.telco2.vodworks.com:
+    container_name: peer1.telco2.vodworks.com
     extends:
       file:  base/docker-compose-base.yaml
-      service: peer1.telco2.vod.com
+      service: peer1.telco2.vodworks.com
     networks:
       - byfn
 
@@ -65,16 +74,16 @@ services:
     environment:
       - GOPATH=/opt/gopath
       - CORE_VM_ENDPOINT=unix:///host/var/run/docker.sock
-      #- CORE_LOGGING_LEVEL=DEBUG
-      - CORE_LOGGING_LEVEL=INFO
+      #- FABRIC_LOGGING_SPEC=DEBUG
+      - FABRIC_LOGGING_SPEC=INFO
       - CORE_PEER_ID=cli
-      - CORE_PEER_ADDRESS=peer0.telco1.vod.com:7051
+      - CORE_PEER_ADDRESS=peer0.telco1.vodworks.com:7051
       - CORE_PEER_LOCALMSPID=Telco1MSP
       - CORE_PEER_TLS_ENABLED=true
-      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco1.vod.com/peers/peer0.telco1.vod.com/tls/server.crt
-      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco1.vod.com/peers/peer0.telco1.vod.com/tls/server.key
-      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco1.vod.com/peers/peer0.telco1.vod.com/tls/ca.crt
-      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco1.vod.com/users/Admin@telco1.vod.com/msp
+      - CORE_PEER_TLS_CERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco1.vodworks.com/peers/peer0.telco1.vodworks.com/tls/server.crt
+      - CORE_PEER_TLS_KEY_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco1.vodworks.com/peers/peer0.telco1.vodworks.com/tls/server.key
+      - CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco1.vodworks.com/peers/peer0.telco1.vodworks.com/tls/ca.crt
+      - CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco1.vodworks.com/users/Admin@telco1.vodworks.com/msp
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
     volumes:
@@ -84,10 +93,9 @@ services:
         - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
         - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
-      - orderer.vod.com
-      - peer0.telco1.vod.com
-      - peer1.telco1.vod.com
-      - peer0.telco2.vod.com
-      - peer1.telco2.vod.com
+      - peer0.telco1.vodworks.com
+      - peer1.telco1.vodworks.com
+      - peer0.telco2.vodworks.com
+      - peer1.telco2.vodworks.com
     networks:
       - byfn

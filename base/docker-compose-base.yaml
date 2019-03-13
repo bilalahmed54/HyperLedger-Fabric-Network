@@ -5,13 +5,17 @@
 
 version: '2'
 
+volumes:
+  orderer.vodworks.com:
+  orderer0.vodworks.com:
+
 services:
 
-  orderer.vod.com:
-    container_name: orderer.vod.com
-    image: hyperledger/fabric-orderer:$IMAGE_TAG
+  orderer.vodworks.com:
+    container_name: orderer.vodworks.com
+    image: hyperledger/fabric-orderer
     environment:
-      - ORDERER_GENERAL_LOGLEVEL=INFO
+      - FABRIC_LOGGING_SPEC=INFO
       - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
       - ORDERER_GENERAL_GENESISMETHOD=file
       - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
@@ -22,93 +26,122 @@ services:
       - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
       - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
       - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
+      - ORDERER_KAFKA_VERBOSE=true
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric
     command: orderer
     volumes:
     - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
-    - ../crypto-config/ordererOrganizations/vod.com/orderers/orderer.vod.com/msp:/var/hyperledger/orderer/msp
-    - ../crypto-config/ordererOrganizations/vod.com/orderers/orderer.vod.com/tls/:/var/hyperledger/orderer/tls
-    - orderer.vod.com:/var/hyperledger/production/orderer
+    - ../crypto-config/ordererOrganizations/vodworks.com/orderers/orderer.vodworks.com/msp:/var/hyperledger/orderer/msp
+    - ../crypto-config/ordererOrganizations/vodworks.com/orderers/orderer.vodworks.com/tls/:/var/hyperledger/orderer/tls
+    - orderer.vodworks.com:/var/hyperledger/production/orderer
     ports:
       - 7050:7050
 
-  peer0.telco1.vod.com:
-    container_name: peer0.telco1.vod.com
+  orderer0.vodworks.com:
+    container_name: orderer0.vodworks.com
+    image: hyperledger/fabric-orderer
+    environment:
+      - FABRIC_LOGGING_SPEC=INFO
+      - ORDERER_GENERAL_LISTENADDRESS=0.0.0.0
+      - ORDERER_GENERAL_GENESISMETHOD=file
+      - ORDERER_GENERAL_GENESISFILE=/var/hyperledger/orderer/orderer.genesis.block
+      - ORDERER_GENERAL_LOCALMSPID=OrdererMSP
+      - ORDERER_GENERAL_LOCALMSPDIR=/var/hyperledger/orderer/msp
+      # enabled TLS
+      - ORDERER_GENERAL_TLS_ENABLED=true
+      - ORDERER_GENERAL_TLS_PRIVATEKEY=/var/hyperledger/orderer/tls/server.key
+      - ORDERER_GENERAL_TLS_CERTIFICATE=/var/hyperledger/orderer/tls/server.crt
+      - ORDERER_GENERAL_TLS_ROOTCAS=[/var/hyperledger/orderer/tls/ca.crt]
+      - ORDERER_KAFKA_TOPIC_REPLICATIONFACTOR=1
+      - ORDERER_KAFKA_VERBOSE=true
+    working_dir: /opt/gopath/src/github.com/hyperledger/fabric
+    command: orderer
+    volumes:
+    - ../channel-artifacts/genesis.block:/var/hyperledger/orderer/orderer.genesis.block
+    - ../crypto-config/ordererOrganizations/vodworks.com/orderers/orderer0.vodworks.com/msp:/var/hyperledger/orderer/msp
+    - ../crypto-config/ordererOrganizations/vodworks.com/orderers/orderer0.vodworks.com/tls/:/var/hyperledger/orderer/tls
+    - orderer0.vodworks.com:/var/hyperledger/production/orderer
+    ports:
+      - 7040:7040
+
+  peer0.telco1.vodworks.com:
+    container_name: peer0.telco1.vodworks.com
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer0.telco1.vod.com
-      - CORE_PEER_ADDRESS=peer0.telco1.vod.com:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.telco1.vod.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.telco1.vod.com:7051
+      - CORE_PEER_ID=peer0.telco1.vodworks.com
+      - CORE_PEER_ADDRESS=peer0.telco1.vodworks.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.telco1.vodworks.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.telco1.vodworks.com:7051
       - CORE_PEER_LOCALMSPID=Telco1MSP
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/telco1.vod.com/peers/peer0.telco1.vod.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/telco1.vod.com/peers/peer0.telco1.vod.com/tls:/etc/hyperledger/fabric/tls
-        - peer0.telco1.vod.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/telco1.vodworks.com/peers/peer0.telco1.vodworks.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/telco1.vodworks.com/peers/peer0.telco1.vodworks.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.telco1.vodworks.com:/var/hyperledger/production
     ports:
       - 7051:7051
       - 7053:7053
 
-  peer1.telco1.vod.com:
-    container_name: peer1.telco1.vod.com
+  peer1.telco1.vodworks.com:
+    container_name: peer1.telco1.vodworks.com
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer1.telco1.vod.com
-      - CORE_PEER_ADDRESS=peer1.telco1.vod.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.telco1.vod.com:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.telco1.vod.com:7051
+      - CORE_PEER_ID=peer1.telco1.vodworks.com
+      - CORE_PEER_ADDRESS=peer1.telco1.vodworks.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.telco1.vodworks.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.telco1.vodworks.com:7051
       - CORE_PEER_LOCALMSPID=Telco1MSP
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/telco1.vod.com/peers/peer1.telco1.vod.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/telco1.vod.com/peers/peer1.telco1.vod.com/tls:/etc/hyperledger/fabric/tls
-        - peer1.telco1.vod.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/telco1.vodworks.com/peers/peer1.telco1.vodworks.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/telco1.vodworks.com/peers/peer1.telco1.vodworks.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.telco1.vodworks.com:/var/hyperledger/production
 
     ports:
       - 8051:7051
       - 8053:7053
 
-  peer0.telco2.vod.com:
-    container_name: peer0.telco2.vod.com
+  peer0.telco2.vodworks.com:
+    container_name: peer0.telco2.vodworks.com
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer0.telco2.vod.com
-      - CORE_PEER_ADDRESS=peer0.telco2.vod.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.telco2.vod.com:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.telco2.vod.com:7051
+      - CORE_PEER_ID=peer0.telco2.vodworks.com
+      - CORE_PEER_ADDRESS=peer0.telco2.vodworks.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer0.telco2.vodworks.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer1.telco2.vodworks.com:7051
       - CORE_PEER_LOCALMSPID=Telco2MSP
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/telco2.vod.com/peers/peer0.telco2.vod.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/telco2.vod.com/peers/peer0.telco2.vod.com/tls:/etc/hyperledger/fabric/tls
-        - peer0.telco2.vod.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/telco2.vodworks.com/peers/peer0.telco2.vodworks.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/telco2.vodworks.com/peers/peer0.telco2.vodworks.com/tls:/etc/hyperledger/fabric/tls
+        - peer0.telco2.vodworks.com:/var/hyperledger/production
     ports:
       - 9051:7051
       - 9053:7053
 
-  peer1.telco2.vod.com:
-    container_name: peer1.telco2.vod.com
+  peer1.telco2.vodworks.com:
+    container_name: peer1.telco2.vodworks.com
     extends:
       file: peer-base.yaml
       service: peer-base
     environment:
-      - CORE_PEER_ID=peer1.telco2.vod.com
-      - CORE_PEER_ADDRESS=peer1.telco2.vod.com:7051
-      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.telco2.vod.com:7051
-      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.telco2.vod.com:7051
+      - CORE_PEER_ID=peer1.telco2.vodworks.com
+      - CORE_PEER_ADDRESS=peer1.telco2.vodworks.com:7051
+      - CORE_PEER_GOSSIP_EXTERNALENDPOINT=peer1.telco2.vodworks.com:7051
+      - CORE_PEER_GOSSIP_BOOTSTRAP=peer0.telco2.vodworks.com:7051
       - CORE_PEER_LOCALMSPID=Telco2MSP
     volumes:
         - /var/run/:/host/var/run/
-        - ../crypto-config/peerOrganizations/telco2.vod.com/peers/peer1.telco2.vod.com/msp:/etc/hyperledger/fabric/msp
-        - ../crypto-config/peerOrganizations/telco2.vod.com/peers/peer1.telco2.vod.com/tls:/etc/hyperledger/fabric/tls
-        - peer1.telco2.vod.com:/var/hyperledger/production
+        - ../crypto-config/peerOrganizations/telco2.vodworks.com/peers/peer1.telco2.vodworks.com/msp:/etc/hyperledger/fabric/msp
+        - ../crypto-config/peerOrganizations/telco2.vodworks.com/peers/peer1.telco2.vodworks.com/tls:/etc/hyperledger/fabric/tls
+        - peer1.telco2.vodworks.com:/var/hyperledger/production
     ports:
       - 10051:7051
       - 10053:7053

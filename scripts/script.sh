@@ -78,36 +78,37 @@ joinChannel
 
 ## Set the anchor peers for each telco in the channel
 echo "Updating anchor peers for telco1..."
-# updateAnchorPeers 0 1
+updateAnchorPeers 0 1
+
 echo "Updating anchor peers for telco2..."
 updateAnchorPeers 0 2
 
 ## Install chaincode on peer0.telco1 and peer0.telco2
 echo "Installing chaincode on peer0.telco1..."
-installChaincode 0 1
+#installChaincode 0 1
 
 echo "Install chaincode on peer0.telco2..."
-installChaincode 0 2
+#installChaincode 0 2
 
 # Instantiate chaincode on peer0.telco2
 echo "Instantiating chaincode on peer0.telco2..."
-instantiateChaincode 0 2
+#instantiateChaincode 0 2
 
 # Query chaincode on peer0.telco1
 echo "Querying chaincode on peer0.telco1..."
-chaincodeQuery 0 1 100
+#chaincodeQuery 0 1 100
 
 # Invoke chaincode on peer0.telco1 and peer0.telco2
 echo "Sending invoke transaction on peer0.telco1 peer0.telco2..."
-chaincodeInvoke 0 1 0 2
+#chaincodeInvoke 0 1 0 2
 
 ## Install chaincode on peer1.telco2
 echo "Installing chaincode on peer1.telco2..."
-installChaincode 1 2
+#installChaincode 1 2
 
 # Query on chaincode on peer1.telco2, check if the result is 90
 echo "Querying chaincode on peer1.telco2..."
-chaincodeQuery 1 2 90
+#chaincodeQuery 1 2 90
 
 echo
 echo "========= All GOOD, BYFN execution completed =========== "

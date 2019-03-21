@@ -1,0 +1,34 @@
+{
+    "name": "byfn-network-telco2-only",
+    "x-type": "hlfv1",
+    "mspID": "Telco2MSP",
+    "peers": [
+        {
+            "requestURL": "grpcs://localhost:9051",
+            "eventURL": "grpcs://localhost:9053",
+            "cert": "../crypto-config/peerOrganizations/telco2.vodworks.com/peers/peer0.telco2.vodworks.com/tls/ca.crt",
+            "hostnameOverride": "peer0.telco2.vodworks.com"
+        },
+        {
+            "requestURL": "grpcs://localhost:10051",
+            "eventURL": "grpcs://localhost:10053",
+            "cert": "../crypto-config/peerOrganizations/telco2.vodworks.com/peers/peer0.telco2.vodworks.com/tls/ca.crt",
+            "hostnameOverride": "peer1.telco2.vodworks.com"
+        }
+    ],
+    "ca": {
+        "url": "https://localhost:8054",
+        "name": "ca-telco2",
+        "cert": "../crypto-config/peerOrganizations/telco2.vodworks.com/peers/peer0.telco2.vodworks.com/tls/ca.crt",
+        "hostnameOverride": "ca.telco2.vodworks.com"
+    },
+    "orderers": [
+        {
+            "url" : "grpcs://localhost:7050",
+            "cert": "../crypto-config/ordererOrganizations/vodworks.com/orderers/orderer.vodworks.com/tls/ca.crt",
+            "hostnameOverride": "orderer.vodworks.com"
+        }
+    ],
+    "channel": "ttchannel",
+    "timeout": 300
+}

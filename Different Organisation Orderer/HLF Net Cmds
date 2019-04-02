@@ -1,0 +1,44 @@
+https://cloud.ibm.com/unifiedsupport/cases/manage
+export DOCKER_HOST_IP=$(ip addr | grep "inet " | grep -v host | awk '{print $2}' | cut -f1 -d'/' | head -n 1)
+
+cd
+rm -r .composer/
+cd /Users/BAY/fabric-samples/first-network/connection_profiles
+rm -r tt01
+rm -r tt02
+rm ca-telco1.txt
+rm ca-telco2.txt
+rm ca-orderer.txt
+rm tt01@tt_poc.card
+rm tt02@tt_poc.card
+rm PeerAdmin\@tt-network-telco1.card
+rm PeerAdmin\@tt-network-telco2.card
+
+------------------Use the following commands as it is-------------------
+
+awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' ../crypto-config/peerOrganizations/telco1.vodworks.com/peers/peer0.telco1.vodworks.com/tls/ca.crt > ca-telco1.txt
+awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' ../crypto-config/peerOrganizations/telco2.vodworks.com/peers/peer0.telco2.vodworks.com/tls/ca.crt > ca-telco2.txt
+awk 'NF {sub(/\r/, ""); printf "%s\\n",$0;}' ../crypto-config/ordererOrganizations/vodworks.com/orderers/orderer0.vodworks.com/tls/ca.crt > ca-orderer.txt
+
+------------------Modify the Command Given Below-------------------
+composer card create -p tt-network-telco1.json -u PeerAdmin -c ../crypto-config/peerOrganizations/telco1.vodworks.com/users/Admin@telco1.vodworks.com/msp/signcerts/Admin@telco1.vodworks.com-cert.pem -k ../crypto-config/peerOrganizations/telco1.vodworks.com/users/Admin@telco1.vodworks.com/msp/keystore/_sk -r PeerAdmin -r ChannelAdmin -f PeerAdmin@tt-network-telco1.card
+
+------------------Modify the Command Given Below-------------------
+
+composer card create -p tt-network-telco2.json -u PeerAdmin -c ../crypto-config/peerOrganizations/telco2.vodworks.com/users/Admin@telco2.vodworks.com/msp/signcerts/Admin@telco2.vodworks.com-cert.pem -k ../crypto-config/peerOrganizations/telco2.vodworks.com/users/Admin@telco2.vodworks.com/msp/keystore/_sk -r PeerAdmin -r ChannelAdmin -f PeerAdmin@tt-network-telco2.card
+
+------------------Use the following commands as it is-------------------
+
+composer card import -f PeerAdmin@tt-network-telco1.card --card PeerAdmin@tt-network-telco1
+composer card import -f PeerAdmin@tt-network-telco2.card --card PeerAdmin@tt-network-telco2
+composer network install --card PeerAdmin@tt-network-telco1 --archiveFile tt_poc@0.0.1.bna 
+composer network install --card PeerAdmin@tt-network-telco2 --archiveFile tt_poc@0.0.1.bna
+composer identity request -c PeerAdmin@tt-network-telco1 -u admin -s adminpw -d tt01
+composer identity request -c PeerAdmin@tt-network-telco2 -u admin -s adminpw -d tt02
+
+composer network start -c PeerAdmin@tt-network-telco1 -n tt_poc -V 0.0.1 -o endorsementPolicyFile=endorsement-policy.json -A tt01 -C tt01/admin-pub.pem -A tt02 -C tt02/admin-pub.pem
+
+composer card create -p tt-network-telco1.json -u tt01 -n tt_poc -c tt01/admin-pub.pem -k tt01/admin-priv.pem
+composer card import -f tt01@tt_poc.card
+composer card create -p tt-network-telco2.json -u tt02 -n tt_poc -c tt02/admin-pub.pem -k tt02/admin-priv.pem
+composer card import -f tt02@tt_poc.card

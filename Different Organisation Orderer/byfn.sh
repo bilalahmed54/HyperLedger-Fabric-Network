@@ -159,16 +159,16 @@ function networkUp() {
   if [ "${IF_COUCHDB}" == "couchdb" ]; then
     echo "CouchDB"
     if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH -f $COMPOSE_FILE_CA up -d 2>&1
+      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH up -d 2>&1
     else
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH -f $COMPOSE_FILE_CA up -d 2>&1
+      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH up -d 2>&1
     fi
   else
     echo "Kafka"
     if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_CA up -d 2>&1
+      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA up -d 2>&1
     else
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_CA up -d 2>&1
+      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE up -d 2>&1
     fi
   fi
   if [ $? -ne 0 ]; then
@@ -178,8 +178,8 @@ function networkUp() {
 
   if [ "$CONSENSUS_TYPE" == "kafka" ]; then
     sleep 1
-    echo "Sleeping 10s to allow kafka cluster to complete booting"
-    sleep 59
+    echo "Sleeping 120s to allow kafka cluster to complete booting"
+    sleep 120
   fi
 
   # now run the end to end script
@@ -278,9 +278,9 @@ function networkDown() {
     #Cleanup images
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
-    rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./telco3-artifacts/crypto-config/ channel-artifacts/telco3.json
+    # rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./telco3-artifacts/crypto-config/ channel-artifacts/telco3.json
     # remove the docker-compose yaml file that was customized to the example
-    rm -f docker-compose-e2e.yaml
+    # rm -f docker-compose-e2e.yaml
   fi
 }
 
@@ -565,7 +565,7 @@ else
   echo "${EXPMODE} for channel '${CHANNEL_NAME}' with CLI timeout of '${CLI_TIMEOUT}' seconds and CLI delay of '${CLI_DELAY}' seconds"
 fi
 # ask for confirmation to proceed
-askProceed
+# askProceed
 
 #Create the network using docker compose
 if [ "${MODE}" == "up" ]; then

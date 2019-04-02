@@ -71,7 +71,7 @@ Organizations:
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
             - Host: peer1.telco1.vodworks.com
-              Port: 7051
+              Port: 8051
 
     - &Telco2
         # DefaultOrg defines the organization which is used in the sampleconfig
@@ -102,7 +102,7 @@ Organizations:
             # for cross org gossip communication.  Note, this value is only
             # encoded in the genesis block in the Application section context
             - Host: peer1.telco2.vodworks.com
-              Port: 7051
+              Port: 10051
 
 ################################################################################
 #
@@ -208,8 +208,8 @@ Orderer: &OrdererDefaults
     OrdererType: kafka
 
     Addresses:
-        - orderer.vodworks.com:7050
-        - orderer0.vodworks.com:7040
+        - orderer0.vodworks.com:7050
+        - orderer1.vodworks.com:7040
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s
@@ -233,8 +233,10 @@ Orderer: &OrdererDefaults
         # Brokers: A list of Kafka brokers to which the orderer connects
         # NOTE: Use IP:port notation
         Brokers:
-            - kafka.vodworks.com:9092
+            - kafka0.vodworks.com:9092
             - kafka1.vodworks.com:9092
+            - kafka2.vodworks.com:9092
+            - kafka3.vodworks.com:9092
 
     # Organizations is the list of orgs which are defined as participants on
     # the orderer side of the network
@@ -303,6 +305,8 @@ Profiles:
 
     TwoOrgsOrdererGenesis:
         <<: *ChannelDefaults
+        Capabilities:
+            <<: *ChannelCapabilities
         Orderer:
             <<: *OrdererDefaults
             Organizations:
@@ -314,6 +318,7 @@ Profiles:
                 Organizations:
                     - *Telco1
                     - *Telco2
+
     TwoOrgsChannel:
         Consortium: SampleConsortium
         Application:
@@ -333,9 +338,12 @@ Profiles:
             OrdererType: kafka
             Kafka:
                 Brokers:
-                    - kafka.vodworks.com:9092
+                    - kafka0.vodworks.com:9092
+                    - kafka1.vodworks.com:9092
+                    - kafka2.vodworks.com:9092
+                    - kafka3.vodworks.com:9092
             Organizations:
-            - *OrdererOrg
+                - *OrdererOrg
             Capabilities:
                 <<: *OrdererCapabilities
         Application:

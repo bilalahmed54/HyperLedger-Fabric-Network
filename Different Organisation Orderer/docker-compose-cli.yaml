@@ -6,8 +6,8 @@
 version: '2'
 
 volumes:
-  orderer.vodworks.com:
   orderer0.vodworks.com:
+  orderer1.vodworks.com:
   peer0.telco1.vodworks.com:
   peer1.telco1.vodworks.com:
   peer0.telco2.vodworks.com:
@@ -17,12 +17,20 @@ networks:
   byfn:
 
 services:
-
-  orderer.vodworks.com:
+  
+  ca.telco1.vodworks.com:
     extends:
-      file:   base/docker-compose-base.yaml
-      service: orderer.vodworks.com
-    container_name: orderer.vodworks.com
+      file:   docker-compose-e2e.yaml
+      service: ca0
+    container_name: ca.telco1.vodworks.com
+    networks:
+      - byfn
+
+  ca.telco2.vodworks.com:
+    extends:
+      file:   docker-compose-e2e.yaml
+      service: ca1
+    container_name: ca.telco2.vodworks.com
     networks:
       - byfn
 
@@ -33,7 +41,15 @@ services:
     container_name: orderer0.vodworks.com
     networks:
       - byfn
-  
+
+  orderer1.vodworks.com:
+    extends:
+      file:   base/docker-compose-base.yaml
+      service: orderer1.vodworks.com
+    container_name: orderer1.vodworks.com
+    networks:
+      - byfn
+
   peer0.telco1.vodworks.com:
     container_name: peer0.telco1.vodworks.com
     extends:
@@ -93,6 +109,10 @@ services:
         - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
         - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
+      - orderer0.vodworks.com
+      - orderer1.vodworks.com
+      - ca.telco1.vodworks.com
+      - ca.telco2.vodworks.com
       - peer0.telco1.vodworks.com
       - peer1.telco1.vodworks.com
       - peer0.telco2.vodworks.com

@@ -15,12 +15,12 @@ OrdererOrgs:
     # ---------------------------------------------------------------------------
     # "Specs" - See PeerOrgs below for complete description
     # ---------------------------------------------------------------------------
-    Specs:
-      - Hostname: orderer
-      # - Hostname: orderer1
+    # Specs:
+    #   - Hostname: orderer0
+    #   - Hostname: orderer1
 
     Template:
-      Count: 1
+      Count: 2
 # ---------------------------------------------------------------------------
 # "PeerOrgs" - Definition of organizations managing peer nodes
 # ---------------------------------------------------------------------------

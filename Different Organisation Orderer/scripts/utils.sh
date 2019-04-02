@@ -6,7 +6,7 @@
 
 # This is a collection of bash functions used by different scripts
 
-ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/vodworks.com/orderers/orderer.vodworks.com/msp/tlscacerts/tlsca.vodworks.com-cert.pem
+ORDERER_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/vodworks.com/orderers/orderer0.vodworks.com/msp/tlscacerts/tlsca.vodworks.com-cert.pem
 PEER0_TELCO1_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco1.vodworks.com/peers/peer0.telco1.vodworks.com/tls/ca.crt
 PEER0_TELCO2_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco2.vodworks.com/peers/peer0.telco2.vodworks.com/tls/ca.crt
 PEER0_TELCO3_CA=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco3.vodworks.com/peers/peer0.telco3.vodworks.com/tls/ca.crt
@@ -24,7 +24,7 @@ verifyResult() {
 # Set OrdererOrg.Admin globals
 setOrdererGlobals() {
   CORE_PEER_LOCALMSPID="OrdererMSP"
-  CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/vodworks.com/orderers/orderer.vodworks.com/msp/tlscacerts/tlsca.vodworks.com-cert.pem
+  CORE_PEER_TLS_ROOTCERT_FILE=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/vodworks.com/orderers/orderer0.vodworks.com/msp/tlscacerts/tlsca.vodworks.com-cert.pem
   CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/ordererOrganizations/vodworks.com/users/Admin@vodworks.com/msp
 }
 
@@ -38,16 +38,16 @@ setGlobals() {
     if [ $PEER -eq 0 ]; then
       CORE_PEER_ADDRESS=peer0.telco1.vodworks.com:7051
     else
-      CORE_PEER_ADDRESS=peer1.telco1.vodworks.com:7051
+      CORE_PEER_ADDRESS=peer1.telco1.vodworks.com:8051
     fi
   elif [ $TELCO -eq 2 ]; then
     CORE_PEER_LOCALMSPID="Telco2MSP"
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_TELCO2_CA
     CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco2.vodworks.com/users/Admin@telco2.vodworks.com/msp
     if [ $PEER -eq 0 ]; then
-      CORE_PEER_ADDRESS=peer0.telco2.vodworks.com:7051
+      CORE_PEER_ADDRESS=peer0.telco2.vodworks.com:9051
     else
-      CORE_PEER_ADDRESS=peer1.telco2.vodworks.com:7051
+      CORE_PEER_ADDRESS=peer1.telco2.vodworks.com:10051
     fi
 
   elif [ $TELCO -eq 3 ]; then
@@ -55,9 +55,9 @@ setGlobals() {
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_TELCO3_CA
     CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco3.vodworks.com/users/Admin@telco3.vodworks.com/msp
     if [ $PEER -eq 0 ]; then
-      CORE_PEER_ADDRESS=peer0.telco3.vodworks.com:7051
+      CORE_PEER_ADDRESS=peer0.telco3.vodworks.com:11051
     else
-      CORE_PEER_ADDRESS=peer1.telco3.vodworks.com:7051
+      CORE_PEER_ADDRESS=peer1.telco3.vodworks.com:12051
     fi
   else
     echo "================== ERROR !!! TELCO Unknown =================="
@@ -75,12 +75,12 @@ updateAnchorPeers() {
 
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
-    peer channel update -o orderer.vodworks.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt
+    peer channel update -o orderer0.vodworks.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx >&log.txt
     res=$?
     set +x
   else
     set -x
-    peer channel update -o orderer.vodworks.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
+    peer channel update -o orderer0.vodworks.com:7050 -c $CHANNEL_NAME -f ./channel-artifacts/${CORE_PEER_LOCALMSPID}anchors.tx --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA >&log.txt
     res=$?
     set +x
   fi
@@ -139,12 +139,12 @@ instantiateChaincode() {
   # the "-o" option
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
-    peer chaincode instantiate -o orderer.vodworks.com:7050 -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v ${VERSION} -c '{"Args":["init","a","100","b","200"]}' -P "AND ('Telco1MSP.peer','Telco2MSP.peer')" >&log.txt
+    peer chaincode instantiate -o orderer0.vodworks.com:7050 -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v ${VERSION} -c '{"Args":["init","a","100","b","200"]}' -P "AND ('Telco1MSP.peer','Telco2MSP.peer')" >&log.txt
     res=$?
     set +x
   else
     set -x
-    peer chaincode instantiate -o orderer.vodworks.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v 1.0 -c '{"Args":["init","a","100","b","200"]}' -P "AND ('Telco1MSP.peer','Telco2MSP.peer')" >&log.txt
+    peer chaincode instantiate -o orderer0.vodworks.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -l ${LANGUAGE} -v 1.0 -c '{"Args":["init","a","100","b","200"]}' -P "AND ('Telco1MSP.peer','Telco2MSP.peer')" >&log.txt
     res=$?
     set +x
   fi
@@ -160,7 +160,7 @@ upgradeChaincode() {
   setGlobals $PEER $TELCO
 
   set -x
-  peer chaincode upgrade -o orderer.vodworks.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -v 2.0 -c '{"Args":["init","a","90","b","210"]}' -P "AND ('Telco1MSP.peer','Telco2MSP.peer','Telco3MSP.peer')"
+  peer chaincode upgrade -o orderer0.vodworks.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc -v 2.0 -c '{"Args":["init","a","90","b","210"]}' -P "AND ('Telco1MSP.peer','Telco2MSP.peer','Telco3MSP.peer')"
   res=$?
   set +x
   cat log.txt
@@ -220,11 +220,11 @@ fetchChannelConfig() {
   echo "Fetching the most recent configuration block for the channel"
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
-    peer channel fetch config config_block.pb -o orderer.vodworks.com:7050 -c $CHANNEL --cafile $ORDERER_CA
+    peer channel fetch config config_block.pb -o orderer0.vodworks.com:7050 -c $CHANNEL --cafile $ORDERER_CA
     set +x
   else
     set -x
-    peer channel fetch config config_block.pb -o orderer.vodworks.com:7050 -c $CHANNEL --tls --cafile $ORDERER_CA
+    peer channel fetch config config_block.pb -o orderer0.vodworks.com:7050 -c $CHANNEL --tls --cafile $ORDERER_CA
     set +x
   fi
 
@@ -277,9 +277,10 @@ parsePeerConnectionParameters() {
   PEER_CONN_PARMS=""
   PEERS=""
   while [ "$#" -gt 0 ]; do
+    setGlobals $1 $2
     PEER="peer$1.telco$2"
     PEERS="$PEERS $PEER"
-    PEER_CONN_PARMS="$PEER_CONN_PARMS --peerAddresses $PEER.vodworks.com:7051"
+    PEER_CONN_PARMS="$PEER_CONN_PARMS --peerAddresses $CORE_PEER_ADDRESS"
     if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "true" ]; then
       TLSINFO=$(eval echo "--tlsRootCertFiles \$PEER$1_TELCO$2_CA")
       PEER_CONN_PARMS="$PEER_CONN_PARMS $TLSINFO"
@@ -304,12 +305,12 @@ chaincodeInvoke() {
   # it using the "-o" option
   if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "false" ]; then
     set -x
-    peer chaincode invoke -o orderer.vodworks.com:7050 -C $CHANNEL_NAME -n mycc $PEER_CONN_PARMS -c '{"Args":["invoke","a","b","10"]}' >&log.txt
+    peer chaincode invoke -o orderer0.vodworks.com:7050 -C $CHANNEL_NAME -n mycc $PEER_CONN_PARMS -c '{"Args":["invoke","a","b","10"]}' >&log.txt
     res=$?
     set +x
   else
     set -x
-    peer chaincode invoke -o orderer.vodworks.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc $PEER_CONN_PARMS -c '{"Args":["invoke","a","b","10"]}' >&log.txt
+    peer chaincode invoke -o orderer0.vodworks.com:7050 --tls $CORE_PEER_TLS_ENABLED --cafile $ORDERER_CA -C $CHANNEL_NAME -n mycc $PEER_CONN_PARMS -c '{"Args":["invoke","a","b","10"]}' >&log.txt
     res=$?
     set +x
   fi

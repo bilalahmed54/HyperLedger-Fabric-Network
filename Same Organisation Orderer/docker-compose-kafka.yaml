@@ -14,59 +14,105 @@ networks:
   byfn:
 
 services:
-
-  zookeeper.vodworks.com:
-    container_name: zookeeper.vodworks.com
-    image: hyperledger/fabric-zookeeper
+    
+  zookeeper1.telco1.vodworks.com:
+    container_name: zookeeper1.telco1.vodworks.com
+    extends:
+      file: base/kafka-base.yaml
+      service: zookeeper
     environment:
-      ZOOKEEPER_CLIENT_PORT: 32181
-      ZOOKEEPER_TICK_TIME: 2000
+      - ZOO_MY_ID=1
+    ports:
+      - 2181:2181
+      - 2888:2888
+      - 3888:3888
     networks:
     - byfn
     
-  zookeeper1.vodworks.com:
-    container_name: zookeeper1.vodworks.com
-    image: hyperledger/fabric-zookeeper
+  zookeeper2.telco1.vodworks.com:
+    container_name: zookeeper2.telco1.vodworks.com
+    extends:
+      file: base/kafka-base.yaml
+      service: zookeeper
     environment:
-      ZOOKEEPER_CLIENT_PORT: 42181
-      ZOOKEEPER_TICK_TIME: 2000
+      - ZOO_MY_ID=2
+    ports:
+      - 12181:2181
+      - 12888:2888
+      - 13888:3888
     networks:
     - byfn
 
-  kafka.vodworks.com:
-    container_name: kafka.vodworks.com
-    image: hyperledger/fabric-kafka
-    depends_on:
-    - zookeeper.vodworks.com
+  zookeeper3.telco2.vodworks.com:
+    container_name: zookeeper3.telco2.vodworks.com
+    extends:
+      file: base/kafka-base.yaml
+      service: zookeeper
     environment:
-      - KAFKA_BROKER_ID=1
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper.vodworks.com:2181
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka.vodworks.com:9092
-      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-      - KAFKA_MESSAGE_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
-      - KAFKA_REPLICA_FETCH_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
-      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
-      - KAFKA_LOG_RETENTION_MS=-1
-      - KAFKA_MIN_INSYNC_REPLICAS=1
-      - KAFKA_DEFAULT_REPLICATION_FACTOR=1
+      - ZOO_MY_ID=3
+    ports:
+      - 22181:2181
+      - 22888:2888
+      - 23888:3888
     networks:
     - byfn
-  
-  kafka1.vodworks.com:
-    container_name: kafka1.vodworks.com
-    image: hyperledger/fabric-kafka
+
+  kafka1.telco1.vodworks.com:
+    container_name: kafka1.telco1.vodworks.com
+    extends:
+      file: base/kafka-base.yaml
+      service: kafka
     depends_on:
-    - zookeeper1.vodworks.com
+      - zookeeper1.telco1.vodworks.com
+      - zookeeper2.telco1.vodworks.com
+      - zookeeper3.telco2.vodworks.com
     environment:
       - KAFKA_BROKER_ID=1
-      - KAFKA_ZOOKEEPER_CONNECT=zookeeper1.vodworks.com:2181
-      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka1.vodworks.com:9092
-      - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
-      - KAFKA_MESSAGE_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
-      - KAFKA_REPLICA_FETCH_MAX_BYTES=1048576 # 1 * 1024 * 1024 B
-      - KAFKA_UNCLEAN_LEADER_ELECTION_ENABLE=false
-      - KAFKA_LOG_RETENTION_MS=-1
-      - KAFKA_MIN_INSYNC_REPLICAS=1
-      - KAFKA_DEFAULT_REPLICATION_FACTOR=1
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka1.telco1.vodworks.com:9092
     networks:
     - byfn
+
+  kafka2.telco1.vodworks.com:
+    container_name: kafka2.telco1.vodworks.com
+    extends:
+      file: base/kafka-base.yaml
+      service: kafka
+    depends_on:
+      - zookeeper1.telco1.vodworks.com
+      - zookeeper2.telco1.vodworks.com
+      - zookeeper3.telco2.vodworks.com
+    environment:
+      - KAFKA_BROKER_ID=2
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka2.telco1.vodworks.com:9092
+    networks:
+    - byfn
+
+  kafka3.telco2.vodworks.com:
+    container_name: kafka3.telco2.vodworks.com
+    extends:
+      file: base/kafka-base.yaml
+      service: kafka
+    depends_on:
+      - zookeeper1.telco1.vodworks.com
+      - zookeeper2.telco1.vodworks.com
+      - zookeeper3.telco2.vodworks.com
+    environment:
+      - KAFKA_BROKER_ID=3
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka3.telco2.vodworks.com:9092
+    networks:
+    - byfn
+
+  kafka4.telco2.vodworks.com:
+    container_name: kafka4.telco2.vodworks.com
+    extends:
+      file: base/kafka-base.yaml
+      service: kafka
+    depends_on:
+      - zookeeper1.telco1.vodworks.com
+      - zookeeper2.telco1.vodworks.com
+      - zookeeper3.telco2.vodworks.com
+    environment:
+      - KAFKA_BROKER_ID=4
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka4.telco2.vodworks.com:9092
+    networks:
+    - byfn            

@@ -41,16 +41,16 @@ setGlobals() {
     if [ $PEER -eq 0 ]; then
       CORE_PEER_ADDRESS=peer0.telco1.vodworks.com:7051
     else
-      CORE_PEER_ADDRESS=peer1.telco1.vodworks.com:7051
+      CORE_PEER_ADDRESS=peer1.telco1.vodworks.com:8051
     fi
   elif [ $TELCO -eq 2 ]; then
     CORE_PEER_LOCALMSPID="Telco2MSP"
     CORE_PEER_TLS_ROOTCERT_FILE=$PEER0_TELCO2_CA
     CORE_PEER_MSPCONFIGPATH=/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/peerOrganizations/telco2.vodworks.com/users/Admin@telco2.vodworks.com/msp
     if [ $PEER -eq 0 ]; then
-      CORE_PEER_ADDRESS=peer0.telco2.vodworks.com:7051
+      CORE_PEER_ADDRESS=peer0.telco2.vodworks.com:9051
     else
-      CORE_PEER_ADDRESS=peer1.telco2.vodworks.com:7051
+      CORE_PEER_ADDRESS=peer1.telco2.vodworks.com:10051
     fi
 
   elif [ $TELCO -eq 3 ]; then
@@ -280,9 +280,10 @@ parsePeerConnectionParameters() {
   PEER_CONN_PARMS=""
   PEERS=""
   while [ "$#" -gt 0 ]; do
+    setGlobals $1 $2
     PEER="peer$1.telco$2"
     PEERS="$PEERS $PEER"
-    PEER_CONN_PARMS="$PEER_CONN_PARMS --peerAddresses $PEER.vodworks.com:7051"
+    PEER_CONN_PARMS="$PEER_CONN_PARMS --peerAddresses $CORE_PEER_ADDRESS"
     if [ -z "$CORE_PEER_TLS_ENABLED" -o "$CORE_PEER_TLS_ENABLED" = "true" ]; then
       TLSINFO=$(eval echo "--tlsRootCertFiles \$PEER$1_TELCO$2_CA")
       PEER_CONN_PARMS="$PEER_CONN_PARMS $TLSINFO"

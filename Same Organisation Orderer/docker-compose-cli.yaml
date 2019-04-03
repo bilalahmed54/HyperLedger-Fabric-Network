@@ -6,31 +6,47 @@
 version: '2'
 
 volumes:
-  orderer.vodworks.com:
-  orderer0.vodworks.com:
   peer0.telco1.vodworks.com:
   peer1.telco1.vodworks.com:
   peer0.telco2.vodworks.com:
   peer1.telco2.vodworks.com:
+  orderer0.telco1.vodworks.com:
+  orderer0.telco2.vodworks.com:
 
 networks:
   byfn:
 
 services:
 
+  ca.telco1.vodworks.com:
+    extends:
+      file: docker-compose-e2e.yaml
+      service: ca0
+    container_name: ca.telco1.vodworks.com
+    networks:
+      - byfn
+
+  ca.telco2.vodworks.com:
+    extends:
+      file: docker-compose-e2e.yaml
+      service: ca1
+    container_name: ca.telco2.vodworks.com
+    networks:
+      - byfn
+  
   orderer0.telco1.vodworks.com:
     extends:
-      file:   base/docker-compose-base.yaml
-      service: orderer.vodworks.com
-    container_name: orderer.vodworks.com
+      file: base/docker-compose-base.yaml
+      service: orderer0.telco1.vodworks.com
+    container_name: orderer0.telco1.vodworks.com
     networks:
       - byfn
 
   orderer0.telco2.vodworks.com:
     extends:
-      file:   base/docker-compose-base.yaml
-      service: orderer0.vodworks.com
-    container_name: orderer0.vodworks.com
+      file: base/docker-compose-base.yaml
+      service: orderer0.telco2.vodworks.com
+    container_name: orderer0.telco2.vodworks.com
     networks:
       - byfn
   
@@ -87,15 +103,19 @@ services:
     working_dir: /opt/gopath/src/github.com/hyperledger/fabric/peer
     command: /bin/bash
     volumes:
-        - /var/run/:/host/var/run/
-        - ./../chaincode/:/opt/gopath/src/github.com/chaincode
-        - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
-        - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
-        - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
+      - /var/run/:/host/var/run/
+      - ./../chaincode/:/opt/gopath/src/github.com/chaincode
+      - ./crypto-config:/opt/gopath/src/github.com/hyperledger/fabric/peer/crypto/
+      - ./scripts:/opt/gopath/src/github.com/hyperledger/fabric/peer/scripts/
+      - ./channel-artifacts:/opt/gopath/src/github.com/hyperledger/fabric/peer/channel-artifacts
     depends_on:
+      - ca.telco1.vodworks.com
+      - ca.telco2.vodworks.com
       - peer0.telco1.vodworks.com
       - peer1.telco1.vodworks.com
       - peer0.telco2.vodworks.com
       - peer1.telco2.vodworks.com
+      - orderer0.telco1.vodworks.com
+      - orderer0.telco2.vodworks.com
     networks:
       - byfn

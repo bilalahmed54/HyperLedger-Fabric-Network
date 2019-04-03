@@ -258,8 +258,10 @@ Orderer: &OrdererDefaults
         # Brokers: A list of Kafka brokers to which the orderer connects
         # NOTE: Use IP:port notation
         Brokers:
-            - kafka.vodworks.com:9092
-            - kafka1.vodworks.com:9092
+            - kafka1.telco1.vodworks.com:9092
+            - kafka2.telco1.vodworks.com:9092
+            - kafka3.telco2.vodworks.com:9092
+            - kafka4.telco2.vodworks.com:9092
 
     # Organizations is the list of orgs which are defined as participants on
     # the orderer side of the network
@@ -360,20 +362,23 @@ Profiles:
             <<: *OrdererDefaults
             OrdererType: kafka
             Kafka:
-                Brokers:
-                    - kafka.vodworks.com:9092
+                Brokers:                    
+                    - kafka1.telco1.vodworks.com:9092
+                    - kafka2.telco1.vodworks.com:9092
+                    - kafka3.telco2.vodworks.com:9092
+                    - kafka4.telco2.vodworks.com:9092
             Organizations:
-            - *OrdererOrg1
-            - *OrdererOrg2
+                - *OrdererOrg1
+                - *OrdererOrg2
             Capabilities:
                 <<: *OrdererCapabilities
         Application:
             <<: *ApplicationDefaults
             Organizations:
-            - <<: *OrdererOrg1
-            - <<: *OrdererOrg2
+                - <<: *OrdererOrg1
+                - <<: *OrdererOrg2
         Consortiums:
             SampleConsortium:
                 Organizations:
-                - *Telco1
-                - *Telco2
+                    - *Telco1
+                    - *Telco2

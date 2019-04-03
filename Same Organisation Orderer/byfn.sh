@@ -90,7 +90,7 @@ function askProceed() {
 # Obtain CONTAINER_IDS and remove them
 # TODO Might want to make this optional - could clear other containers
 function clearContainers() {
-  CONTAINER_IDS=$(docker ps -a | awk '($2 ~ /dev-peer.*.mycc.*/) {print $1}')
+  CONTAINER_IDS=$(docker ps -a | awk '($2 ~ /dev-peer.*.tt_poc.*/) {print $1}')
   if [ -z "$CONTAINER_IDS" -o "$CONTAINER_IDS" == " " ]; then
     echo "---- No containers available for deletion ----"
   else
@@ -102,7 +102,7 @@ function clearContainers() {
 # specifically the following images are often left behind:
 # TODO list generated image naming patterns
 function removeUnwantedImages() {
-  DOCKER_IMAGE_IDS=$(docker images | awk '($1 ~ /dev-peer.*.mycc.*/) {print $3}')
+  DOCKER_IMAGE_IDS=$(docker images | awk '($1 ~ /dev-peer.*.tt_poc.*/) {print $3}')
   if [ -z "$DOCKER_IMAGE_IDS" -o "$DOCKER_IMAGE_IDS" == " " ]; then
     echo "---- No images available for deletion ----"
   else
@@ -159,16 +159,17 @@ function networkUp() {
   if [ "${IF_COUCHDB}" == "couchdb" ]; then
     echo "CouchDB"
     if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH -f $COMPOSE_FILE_CA up -d 2>&1
+      echo "Kafka"
+      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_COUCH up -d 2>&1
     else
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH -f $COMPOSE_FILE_CA up -d 2>&1
+      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_COUCH up -d 2>&1
     fi
   else
     echo "Kafka"
     if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA -f $COMPOSE_FILE_CA up -d 2>&1
+      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_KAFKA up -d 2>&1
     else
-      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE -f $COMPOSE_FILE_CA up -d 2>&1
+      IMAGE_TAG=$IMAGETAG docker-compose -f $COMPOSE_FILE up -d 2>&1
     fi
   fi
   if [ $? -ne 0 ]; then
@@ -177,9 +178,8 @@ function networkUp() {
   fi
 
   if [ "$CONSENSUS_TYPE" == "kafka" ]; then
-    sleep 1
-    echo "Sleeping 10s to allow kafka cluster to complete booting"
-    sleep 29
+    echo "Sleeping 120s to allow kafka cluster to complete booting"
+    sleep 120
   fi
 
   # now run the end to end script
@@ -195,7 +195,7 @@ function networkUp() {
 # and relaunch the orderer and peers with latest tag
 function upgradeNetwork() {
   if [[ "$IMAGETAG" == *"1.4"* ]] || [[ $IMAGETAG == "latest" ]]; then
-    docker inspect -f '{{.Config.Volumes}}' orderer0.vodworks.com | grep -q '/var/hyperledger/production/orderer'
+    docker inspect -f '{{.Config.Volumes}}' orderer0.telco1.vodworks.com | grep -q '/var/hyperledger/production/orderer'
     if [ $? -ne 0 ]; then
       echo "ERROR !!!! This network does not appear to start with fabric-samples >= v1.3.x?"
       exit 1
@@ -226,9 +226,9 @@ function upgradeNetwork() {
     docker-compose $COMPOSE_FILES up -d --no-deps cli
 
     echo "Upgrading orderer"
-    docker-compose $COMPOSE_FILES stop orderer0.vodworks.com
-    docker cp -a orderer0.vodworks.com:/var/hyperledger/production/orderer $LEDGERS_BACKUP/orderer0.vodworks.com
-    docker-compose $COMPOSE_FILES up -d --no-deps orderer0.vodworks.com
+    docker-compose $COMPOSE_FILES stop orderer0.telco1.vodworks.com
+    docker cp -a orderer0.telco1.vodworks.com:/var/hyperledger/production/orderer $LEDGERS_BACKUP/orderer0.telco1.vodworks.com
+    docker-compose $COMPOSE_FILES up -d --no-deps orderer0.telco1.vodworks.com
 
     for PEER in peer0.telco1.vodworks.com peer1.telco1.vodworks.com peer0.telco2.vodworks.com peer1.telco2.vodworks.com; do
       echo "Upgrading peer $PEER"
@@ -278,9 +278,9 @@ function networkDown() {
     #Cleanup images
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
-    rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./telco3-artifacts/crypto-config/ channel-artifacts/telco3.json
+    # rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./telco3-artifacts/crypto-config/ channel-artifacts/telco3.json
     # remove the docker-compose yaml file that was customized to the example
-    rm -f docker-compose-e2e.yaml
+    # rm -f docker-compose-e2e.yaml
   fi
 }
 
@@ -474,11 +474,11 @@ function generateChannelArtifacts() {
 OS_ARCH=$(echo "$(uname -s | tr '[:upper:]' '[:lower:]' | sed 's/mingw64_nt.*/windows/')-$(uname -m | sed 's/x86_64/amd64/g')" | awk '{print tolower($0)}')
 # timeout duration - the duration the CLI should wait for a response from
 # another container before giving up
-CLI_TIMEOUT=10
+CLI_TIMEOUT=30
 # default for delay between commands
-CLI_DELAY=3
+CLI_DELAY=6
 # channel name defaults to "mychannel"
-CHANNEL_NAME="mychannel"
+CHANNEL_NAME="ttchannel"
 # use this as the default docker-compose yaml definition
 COMPOSE_FILE=docker-compose-cli.yaml
 #
@@ -489,7 +489,7 @@ COMPOSE_FILE_TELCO3=docker-compose-telco3.yaml
 COMPOSE_FILE_KAFKA=docker-compose-kafka.yaml
 
 # CAs compose file
-COMPOSE_FILE_CA=docker-compose-e2e.yaml
+# COMPOSE_FILE_CA=docker-compose-e2e.yaml
 
 #
 # use golang as the default language for chaincode
@@ -564,8 +564,9 @@ if [ "${IF_COUCHDB}" == "couchdb" ]; then
 else
   echo "${EXPMODE} for channel '${CHANNEL_NAME}' with CLI timeout of '${CLI_TIMEOUT}' seconds and CLI delay of '${CLI_DELAY}' seconds"
 fi
+
 # ask for confirmation to proceed
-askProceed
+# askProceed
 
 #Create the network using docker compose
 if [ "${MODE}" == "up" ]; then

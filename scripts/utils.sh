@@ -236,7 +236,7 @@ fetchChannelConfig() {
 
 # signConfigtxAsPeerOrg <telco> <configtx.pb>
 # Set the peerOrg admin of an telco and signing the config update
-signConfigtxAsPeerOrg() {
+signConfigtxAsPeerTelco() {
   PEERORG=$1
   TX=$2
   setGlobals 0 $PEERORG

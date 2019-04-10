@@ -82,6 +82,6 @@ PeerOrgs:
     Domain: telco2.vodworks.com
     EnableNodeOUs: true
     Template:
-      Count: 3
+      Count: 2
     Users:
       Count: 1

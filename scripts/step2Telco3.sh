@@ -49,8 +49,9 @@ joinChannelWithRetry 0 3
 echo "===================== peer0.telco3 joined channel '$CHANNEL_NAME' ===================== "
 joinChannelWithRetry 1 3
 echo "===================== peer1.telco3 joined channel '$CHANNEL_NAME' ===================== "
-echo "Installing chaincode 2.0 on peer0.telco3..."
-installChaincode 0 3 2.0
+
+# echo "Installing chaincode 2.0 on peer0.telco3..."
+# installChaincode 0 3 2.0
 
 echo
 echo "========= Telco3 is now halfway onto your first network ========= "

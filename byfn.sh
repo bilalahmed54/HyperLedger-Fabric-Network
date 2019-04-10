@@ -278,7 +278,7 @@ function networkDown() {
     #Cleanup images
     removeUnwantedImages
     # remove orderer block and other channel configuration transactions and certs
-    # rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./telco3-artifacts/crypto-config/ channel-artifacts/telco3.json
+    # rm -rf channel-artifacts/*.block channel-artifacts/*.tx crypto-config ./newOrganisation/crypto-config/ channel-artifacts/telco3.json
     # remove the docker-compose yaml file that was customized to the example
     # rm -f docker-compose-e2e.yaml
   fi

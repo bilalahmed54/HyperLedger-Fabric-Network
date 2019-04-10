@@ -38,15 +38,11 @@ fi
 . scripts/utils.sh
 
 echo "===================== Installing chaincode 2.0 on peer0.telco1 ===================== "
-installChaincode 0 1 2.0
+# installChaincode 0 1 2.0
 echo "===================== Installing chaincode 2.0 on peer0.telco2 ===================== "
-installChaincode 0 2 2.0
+# installChaincode 0 2 2.0
 
 echo "===================== Upgrading chaincode on peer0.telco1 ===================== "
-upgradeChaincode 0 1
-
-echo
-echo "========= Finished adding Telco3 to your first network! ========= "
-echo
+# upgradeChaincode 0 1
 
 exit 0

@@ -42,11 +42,16 @@
                     "chaincodeQuery": true,
                     "eventSource": true
                 },
-                "peer2.telco2.vodworks.com": {
+                "peer0.telco3.vodworks.com": {
                     "endorsingPeer": true,
                     "chaincodeQuery": true,
                     "eventSource": true
-                }        
+                },
+                "peer1.telco3.vodworks.com": {
+                    "endorsingPeer": true,
+                    "chaincodeQuery": true,
+                    "eventSource": true
+                }       
             }
         }
     },
@@ -65,11 +70,20 @@
             "mspid": "Telco2MSP",
             "peers": [
                 "peer0.telco2.vodworks.com",
-                "peer1.telco2.vodworks.com",
-                "peer2.telco2.vodworks.com"
+                "peer1.telco2.vodworks.com"
             ],
             "certificateAuthorities": [
                 "ca.telco2.vodworks.com"
+            ]
+        },
+        "Telco3": {
+            "mspid": "Telco3MSP",
+            "peers": [
+                "peer0.telco3.vodworks.com",
+                "peer1.telco3.vodworks.com"
+            ],
+            "certificateAuthorities": [
+                "ca.telco3.vodworks.com"
             ]
         }
     },
@@ -80,7 +94,7 @@
                 "ssl-target-name-override": "orderer0.vodworks.com"
             },
             "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICRzCCAe2gAwIBAgIQZmO0kgckCWRR+EUu5BdUqjAKBggqhkjOPQQDAjBuMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEVMBMGA1UEChMMdm9kd29ya3MuY29tMRswGQYDVQQDExJ0bHNjYS52\nb2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkwNDA2MTI0MzAwWjBuMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEVMBMGA1UEChMMdm9kd29ya3MuY29tMRswGQYDVQQDExJ0bHNjYS52\nb2R3b3Jrcy5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASzWZybFF9luBHb\n8NlZJSa7nD/fc9AtPEYbSOusZ4kdFaFIEciqAuuNTFV8EbWblYcvexsoyQKuXPb5\n0T970cJjo20wazAOBgNVHQ8BAf8EBAMCAaYwHQYDVR0lBBYwFAYIKwYBBQUHAwIG\nCCsGAQUFBwMBMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIMmodv9bwPA1ojzJ\n5Yr5i8WEWxCxHXLACP0BkVy7SSLxMAoGCCqGSM49BAMCA0gAMEUCIQCLgXOhEZRT\nHXIaj9/ETZ+qbqzAZdR4XvAOHibbkjv8swIgUpQ6nkgha/PmlTGwa4twWJuaRSQL\nAWPLRlxSscG55pQ=\n-----END CERTIFICATE-----\n"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICSDCCAe6gAwIBAgIRAPXuPtjUjOjBF9AOpNoXZlEwCgYIKoZIzj0EAwIwbjEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xFTATBgNVBAoTDHZvZHdvcmtzLmNvbTEbMBkGA1UEAxMSdGxzY2Eu\ndm9kd29ya3MuY29tMB4XDTE5MDQxMDEyMDIwMFoXDTI5MDQwNzEyMDIwMFowbjEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xFTATBgNVBAoTDHZvZHdvcmtzLmNvbTEbMBkGA1UEAxMSdGxzY2Eu\ndm9kd29ya3MuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE9tYv1CJ/Qldy\nxQt0LlQYfxwLBOywuwnXq39jW/pFDQNSseE3FTeCPRPikJEpUsYEfiKanSVyIXs3\n1MqrseKbJKNtMGswDgYDVR0PAQH/BAQDAgGmMB0GA1UdJQQWMBQGCCsGAQUFBwMC\nBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MCkGA1UdDgQiBCC668shhn4j7g9q\nmu567SVKKTeofOl82nsA3TAbacEDLTAKBggqhkjOPQQDAgNIADBFAiEA6UYVqYAo\nBGLSVOLy6/rhwJBPf//u89cbHpfLTH1c7qcCICRLnH38yauqbL/xOr17aY+oLT6p\nIH7yKA8XWFNizgXl\n-----END CERTIFICATE-----\n"
             }
         },
         "orderer1.vodworks.com": {
@@ -89,7 +103,7 @@
                 "ssl-target-name-override": "orderer1.vodworks.com"
             },
             "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICRzCCAe2gAwIBAgIQZmO0kgckCWRR+EUu5BdUqjAKBggqhkjOPQQDAjBuMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEVMBMGA1UEChMMdm9kd29ya3MuY29tMRswGQYDVQQDExJ0bHNjYS52\nb2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkwNDA2MTI0MzAwWjBuMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEVMBMGA1UEChMMdm9kd29ya3MuY29tMRswGQYDVQQDExJ0bHNjYS52\nb2R3b3Jrcy5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASzWZybFF9luBHb\n8NlZJSa7nD/fc9AtPEYbSOusZ4kdFaFIEciqAuuNTFV8EbWblYcvexsoyQKuXPb5\n0T970cJjo20wazAOBgNVHQ8BAf8EBAMCAaYwHQYDVR0lBBYwFAYIKwYBBQUHAwIG\nCCsGAQUFBwMBMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIMmodv9bwPA1ojzJ\n5Yr5i8WEWxCxHXLACP0BkVy7SSLxMAoGCCqGSM49BAMCA0gAMEUCIQCLgXOhEZRT\nHXIaj9/ETZ+qbqzAZdR4XvAOHibbkjv8swIgUpQ6nkgha/PmlTGwa4twWJuaRSQL\nAWPLRlxSscG55pQ=\n-----END CERTIFICATE-----\n"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICSDCCAe6gAwIBAgIRAPXuPtjUjOjBF9AOpNoXZlEwCgYIKoZIzj0EAwIwbjEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xFTATBgNVBAoTDHZvZHdvcmtzLmNvbTEbMBkGA1UEAxMSdGxzY2Eu\ndm9kd29ya3MuY29tMB4XDTE5MDQxMDEyMDIwMFoXDTI5MDQwNzEyMDIwMFowbjEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xFTATBgNVBAoTDHZvZHdvcmtzLmNvbTEbMBkGA1UEAxMSdGxzY2Eu\ndm9kd29ya3MuY29tMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE9tYv1CJ/Qldy\nxQt0LlQYfxwLBOywuwnXq39jW/pFDQNSseE3FTeCPRPikJEpUsYEfiKanSVyIXs3\n1MqrseKbJKNtMGswDgYDVR0PAQH/BAQDAgGmMB0GA1UdJQQWMBQGCCsGAQUFBwMC\nBggrBgEFBQcDATAPBgNVHRMBAf8EBTADAQH/MCkGA1UdDgQiBCC668shhn4j7g9q\nmu567SVKKTeofOl82nsA3TAbacEDLTAKBggqhkjOPQQDAgNIADBFAiEA6UYVqYAo\nBGLSVOLy6/rhwJBPf//u89cbHpfLTH1c7qcCICRLnH38yauqbL/xOr17aY+oLT6p\nIH7yKA8XWFNizgXl\n-----END CERTIFICATE-----\n"
             }
         }
     },
@@ -100,7 +114,7 @@
                 "ssl-target-name-override": "peer0.telco1.vodworks.com"
             },
             "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICZDCCAgqgAwIBAgIRAJW1e4Qc7JEp/KuLemVriQ4wCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE3RlbGNvMS52b2R3b3Jrcy5jb20xIjAgBgNVBAMT\nGXRsc2NhLnRlbGNvMS52b2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkw\nNDA2MTI0MzAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTdGVsY28xLnZvZHdvcmtz\nLmNvbTEiMCAGA1UEAxMZdGxzY2EudGVsY28xLnZvZHdvcmtzLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABEJyBuUc2B7vn/8oHx81bap2Yhh6r9wcdmH+PARF\nblfrlON5VQ/3H2NC9toGKgkZ36KNO8+WRb6pxnzCZLqygHujbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQggkK4ehADN/U7fouHM/ZW9VzC/w0rs3mkZ2pS5TGA\nLXIwCgYIKoZIzj0EAwIDSAAwRQIhANISiTHblkOyEk0cos7YdfLQDwDzYbxHyfDA\ne/0Jk2PkAiBDQMf57uz5ro9OTuMh4iBI/ShXuGv0iQlNi+YrW1ATZA==\n-----END CERTIFICATE-----\n"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICYjCCAgmgAwIBAgIQDASDjvdvOMndUe8FqVd+GzAKBggqhkjOPQQDAjB8MQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEcMBoGA1UEChMTdGVsY28xLnZvZHdvcmtzLmNvbTEiMCAGA1UEAxMZ\ndGxzY2EudGVsY28xLnZvZHdvcmtzLmNvbTAeFw0xOTA0MTAxMjAyMDBaFw0yOTA0\nMDcxMjAyMDBaMHwxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYw\nFAYDVQQHEw1TYW4gRnJhbmNpc2NvMRwwGgYDVQQKExN0ZWxjbzEudm9kd29ya3Mu\nY29tMSIwIAYDVQQDExl0bHNjYS50ZWxjbzEudm9kd29ya3MuY29tMFkwEwYHKoZI\nzj0CAQYIKoZIzj0DAQcDQgAEWUAOTaWqDsSJCH//uvBUNgUCecK24NbW5LOjFkp6\n6lNsXovCcIsbK5LBb6zouPJMJhK65Wik50IUwg/3te7lYaNtMGswDgYDVR0PAQH/\nBAQDAgGmMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8E\nBTADAQH/MCkGA1UdDgQiBCDSlf2FUba0LjkN4NDfbRiNEhP5UxkHnswqsvAg3GEA\n4DAKBggqhkjOPQQDAgNHADBEAiBCeScWFRKpSrtYFRwDD3FzzRJSgi+w5qjrgo/w\nbASIUAIgNDRhqU/YKFSkhZ56OTg++fmvYZgHTfPs04Hcq5e+KrM=\n-----END CERTIFICATE-----\n"
             }
         },
         "peer1.telco1.vodworks.com": {
@@ -109,7 +123,7 @@
                 "ssl-target-name-override": "peer1.telco1.vodworks.com"
             },
             "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICZDCCAgqgAwIBAgIRAJW1e4Qc7JEp/KuLemVriQ4wCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE3RlbGNvMS52b2R3b3Jrcy5jb20xIjAgBgNVBAMT\nGXRsc2NhLnRlbGNvMS52b2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkw\nNDA2MTI0MzAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTdGVsY28xLnZvZHdvcmtz\nLmNvbTEiMCAGA1UEAxMZdGxzY2EudGVsY28xLnZvZHdvcmtzLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABEJyBuUc2B7vn/8oHx81bap2Yhh6r9wcdmH+PARF\nblfrlON5VQ/3H2NC9toGKgkZ36KNO8+WRb6pxnzCZLqygHujbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQggkK4ehADN/U7fouHM/ZW9VzC/w0rs3mkZ2pS5TGA\nLXIwCgYIKoZIzj0EAwIDSAAwRQIhANISiTHblkOyEk0cos7YdfLQDwDzYbxHyfDA\ne/0Jk2PkAiBDQMf57uz5ro9OTuMh4iBI/ShXuGv0iQlNi+YrW1ATZA==\n-----END CERTIFICATE-----\n"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICYjCCAgmgAwIBAgIQDASDjvdvOMndUe8FqVd+GzAKBggqhkjOPQQDAjB8MQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEcMBoGA1UEChMTdGVsY28xLnZvZHdvcmtzLmNvbTEiMCAGA1UEAxMZ\ndGxzY2EudGVsY28xLnZvZHdvcmtzLmNvbTAeFw0xOTA0MTAxMjAyMDBaFw0yOTA0\nMDcxMjAyMDBaMHwxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYw\nFAYDVQQHEw1TYW4gRnJhbmNpc2NvMRwwGgYDVQQKExN0ZWxjbzEudm9kd29ya3Mu\nY29tMSIwIAYDVQQDExl0bHNjYS50ZWxjbzEudm9kd29ya3MuY29tMFkwEwYHKoZI\nzj0CAQYIKoZIzj0DAQcDQgAEWUAOTaWqDsSJCH//uvBUNgUCecK24NbW5LOjFkp6\n6lNsXovCcIsbK5LBb6zouPJMJhK65Wik50IUwg/3te7lYaNtMGswDgYDVR0PAQH/\nBAQDAgGmMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8E\nBTADAQH/MCkGA1UdDgQiBCDSlf2FUba0LjkN4NDfbRiNEhP5UxkHnswqsvAg3GEA\n4DAKBggqhkjOPQQDAgNHADBEAiBCeScWFRKpSrtYFRwDD3FzzRJSgi+w5qjrgo/w\nbASIUAIgNDRhqU/YKFSkhZ56OTg++fmvYZgHTfPs04Hcq5e+KrM=\n-----END CERTIFICATE-----\n"
             }
         },
         "peer0.telco2.vodworks.com": {
@@ -118,7 +132,7 @@
                 "ssl-target-name-override": "peer0.telco2.vodworks.com"
             },
             "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICZDCCAgqgAwIBAgIRAKzrdJfA+NYpehryBYGmrYIwCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE3RlbGNvMi52b2R3b3Jrcy5jb20xIjAgBgNVBAMT\nGXRsc2NhLnRlbGNvMi52b2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkw\nNDA2MTI0MzAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTdGVsY28yLnZvZHdvcmtz\nLmNvbTEiMCAGA1UEAxMZdGxzY2EudGVsY28yLnZvZHdvcmtzLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABJ1Ui27XJmUT4VFIhCR3TBb6+dBBkarOJN+FWDss\nSdkyXVT8TBc5FrrxoDbhb6Qh+k5qRpsLZRCobZk7m9OxXoCjbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQg/jqLpEih6wPwWDK+0EjuvRCCLJ1rmewOdPTBmoXL\nWhwwCgYIKoZIzj0EAwIDSAAwRQIhAPKHNjey+8xZJqsrHVy+hhKRr+IkeL8AYq88\npuLJZQsmAiBYN/BMyY3meKRNdrOwKAri7pSeNUl9I5Atq/2s7mALdA==\n-----END CERTIFICATE-----\n"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICYzCCAgqgAwIBAgIRAMgRMjr9OvLXXcrl6qzGQBAwCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE3RlbGNvMi52b2R3b3Jrcy5jb20xIjAgBgNVBAMT\nGXRsc2NhLnRlbGNvMi52b2R3b3Jrcy5jb20wHhcNMTkwNDEwMTIwMjAwWhcNMjkw\nNDA3MTIwMjAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTdGVsY28yLnZvZHdvcmtz\nLmNvbTEiMCAGA1UEAxMZdGxzY2EudGVsY28yLnZvZHdvcmtzLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABABUdJkbpxpc8pGiVGaDGt7I+AF76menOc4wh30h\nztn6MQ8kVWG6xKUDJkB0Bdm8fXy1srmAmsFqq5Y+PxoRtNijbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQg0NH5pZoFhY5lf1+6OCU+uG+3WMBeAnGqnsLR3lYh\neEMwCgYIKoZIzj0EAwIDRwAwRAIgY4LoYZt2qt/J/y/GvRYLYWAnvcKTEo/vfwuM\nfrnOGu4CIESOF5n8zZov5+fltlBtRCkfl6UGm15NZtJJZ3LnJjf6\n-----END CERTIFICATE-----\n"
             }
         },
         "peer1.telco2.vodworks.com": {
@@ -127,16 +141,25 @@
                 "ssl-target-name-override": "peer1.telco2.vodworks.com"
             },
             "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICZDCCAgqgAwIBAgIRAKzrdJfA+NYpehryBYGmrYIwCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE3RlbGNvMi52b2R3b3Jrcy5jb20xIjAgBgNVBAMT\nGXRsc2NhLnRlbGNvMi52b2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkw\nNDA2MTI0MzAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTdGVsY28yLnZvZHdvcmtz\nLmNvbTEiMCAGA1UEAxMZdGxzY2EudGVsY28yLnZvZHdvcmtzLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABJ1Ui27XJmUT4VFIhCR3TBb6+dBBkarOJN+FWDss\nSdkyXVT8TBc5FrrxoDbhb6Qh+k5qRpsLZRCobZk7m9OxXoCjbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQg/jqLpEih6wPwWDK+0EjuvRCCLJ1rmewOdPTBmoXL\nWhwwCgYIKoZIzj0EAwIDSAAwRQIhAPKHNjey+8xZJqsrHVy+hhKRr+IkeL8AYq88\npuLJZQsmAiBYN/BMyY3meKRNdrOwKAri7pSeNUl9I5Atq/2s7mALdA==\n-----END CERTIFICATE-----\n"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICYzCCAgqgAwIBAgIRAMgRMjr9OvLXXcrl6qzGQBAwCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE3RlbGNvMi52b2R3b3Jrcy5jb20xIjAgBgNVBAMT\nGXRsc2NhLnRlbGNvMi52b2R3b3Jrcy5jb20wHhcNMTkwNDEwMTIwMjAwWhcNMjkw\nNDA3MTIwMjAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTdGVsY28yLnZvZHdvcmtz\nLmNvbTEiMCAGA1UEAxMZdGxzY2EudGVsY28yLnZvZHdvcmtzLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABABUdJkbpxpc8pGiVGaDGt7I+AF76menOc4wh30h\nztn6MQ8kVWG6xKUDJkB0Bdm8fXy1srmAmsFqq5Y+PxoRtNijbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQg0NH5pZoFhY5lf1+6OCU+uG+3WMBeAnGqnsLR3lYh\neEMwCgYIKoZIzj0EAwIDRwAwRAIgY4LoYZt2qt/J/y/GvRYLYWAnvcKTEo/vfwuM\nfrnOGu4CIESOF5n8zZov5+fltlBtRCkfl6UGm15NZtJJZ3LnJjf6\n-----END CERTIFICATE-----\n"
             }
         },
-        "peer2.telco2.vodworks.com": {
-            "url": "grpcs://localhost:11051",
+        "peer0.telco3.vodworks.com": {
+            "url": "grpcs://localhost:12051",
             "grpcOptions": {
-            "ssl-target-name-override": "peer2.telco2.vodworks.com"
+                "ssl-target-name-override": "peer0.telco3.vodworks.com"
             },
             "tlsCACerts": {
-                "pem": "-----BEGIN CERTIFICATE-----\nMIICZDCCAgqgAwIBAgIRAKzrdJfA+NYpehryBYGmrYIwCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE3RlbGNvMi52b2R3b3Jrcy5jb20xIjAgBgNVBAMT\nGXRsc2NhLnRlbGNvMi52b2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkw\nNDA2MTI0MzAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTdGVsY28yLnZvZHdvcmtz\nLmNvbTEiMCAGA1UEAxMZdGxzY2EudGVsY28yLnZvZHdvcmtzLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABJ1Ui27XJmUT4VFIhCR3TBb6+dBBkarOJN+FWDss\nSdkyXVT8TBc5FrrxoDbhb6Qh+k5qRpsLZRCobZk7m9OxXoCjbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQg/jqLpEih6wPwWDK+0EjuvRCCLJ1rmewOdPTBmoXL\nWhwwCgYIKoZIzj0EAwIDSAAwRQIhAPKHNjey+8xZJqsrHVy+hhKRr+IkeL8AYq88\npuLJZQsmAiBYN/BMyY3meKRNdrOwKAri7pSeNUl9I5Atq/2s7mALdA==\n-----END CERTIFICATE-----\n"
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICYzCCAgmgAwIBAgIQWSVn1O3WaI6GBdLff1RPvzAKBggqhkjOPQQDAjB8MQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEcMBoGA1UEChMTdGVsY28zLnZvZHdvcmtzLmNvbTEiMCAGA1UEAxMZ\ndGxzY2EudGVsY28zLnZvZHdvcmtzLmNvbTAeFw0xOTA0MTAxMjIxMDBaFw0yOTA0\nMDcxMjIxMDBaMHwxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYw\nFAYDVQQHEw1TYW4gRnJhbmNpc2NvMRwwGgYDVQQKExN0ZWxjbzMudm9kd29ya3Mu\nY29tMSIwIAYDVQQDExl0bHNjYS50ZWxjbzMudm9kd29ya3MuY29tMFkwEwYHKoZI\nzj0CAQYIKoZIzj0DAQcDQgAEFyZRV/2HEoQVTeCD4NQPgdoDTMGiKxSCdSgjBeOw\n9BwcWt3vUSYoY6LKpp+ii2UQJRYJIegCFzai2hX725nFWaNtMGswDgYDVR0PAQH/\nBAQDAgGmMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8E\nBTADAQH/MCkGA1UdDgQiBCC9p9mDzstUTk9Fg0TCoUjskamzqsv3HY3jniKr6sMG\nDjAKBggqhkjOPQQDAgNIADBFAiEAmnA0xcA+rjXgL/iz10pjBNq0xnWizIuD+F0c\nSee94bYCICAT8wQmr2fLuDnueEn1BQpT6B3QmRbdoB/zBRPsiEBF\n-----END CERTIFICATE-----\n"
+            }
+        },
+        "peer1.telco3.vodworks.com": {
+            "url": "grpcs://localhost:13051",
+            "grpcOptions": {
+                "ssl-target-name-override": "peer1.telco3.vodworks.com"
+            },
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICYzCCAgmgAwIBAgIQWSVn1O3WaI6GBdLff1RPvzAKBggqhkjOPQQDAjB8MQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEcMBoGA1UEChMTdGVsY28zLnZvZHdvcmtzLmNvbTEiMCAGA1UEAxMZ\ndGxzY2EudGVsY28zLnZvZHdvcmtzLmNvbTAeFw0xOTA0MTAxMjIxMDBaFw0yOTA0\nMDcxMjIxMDBaMHwxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpDYWxpZm9ybmlhMRYw\nFAYDVQQHEw1TYW4gRnJhbmNpc2NvMRwwGgYDVQQKExN0ZWxjbzMudm9kd29ya3Mu\nY29tMSIwIAYDVQQDExl0bHNjYS50ZWxjbzMudm9kd29ya3MuY29tMFkwEwYHKoZI\nzj0CAQYIKoZIzj0DAQcDQgAEFyZRV/2HEoQVTeCD4NQPgdoDTMGiKxSCdSgjBeOw\n9BwcWt3vUSYoY6LKpp+ii2UQJRYJIegCFzai2hX725nFWaNtMGswDgYDVR0PAQH/\nBAQDAgGmMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEFBQcDATAPBgNVHRMBAf8E\nBTADAQH/MCkGA1UdDgQiBCC9p9mDzstUTk9Fg0TCoUjskamzqsv3HY3jniKr6sMG\nDjAKBggqhkjOPQQDAgNIADBFAiEAmnA0xcA+rjXgL/iz10pjBNq0xnWizIuD+F0c\nSee94bYCICAT8wQmr2fLuDnueEn1BQpT6B3QmRbdoB/zBRPsiEBF\n-----END CERTIFICATE-----\n"
             }
         }     
     },
@@ -151,6 +174,13 @@
         "ca.telco2.vodworks.com": {
             "url": "https://localhost:8054",
             "caName": "ca-telco2",
+            "httpOptions": {
+                "verify": false
+            }
+        },
+        "ca.telco3.vodworks.com": {
+            "url": "https://localhost:9054",
+            "caName": "ca-telco3",
             "httpOptions": {
                 "verify": false
             }

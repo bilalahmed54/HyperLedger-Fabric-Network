@@ -1,0 +1,159 @@
+{
+    "name": "tt-network",
+    "x-type": "hlfv1",
+    "version": "1.0.0",
+    "client": {
+        "organization": "Telco2",
+        "connection": {
+            "timeout": {
+                "peer": {
+                    "endorser": "1200",
+                    "eventHub": "1200",
+                    "eventReg": "1200"
+                },
+                "orderer": "1200"
+            }
+        }
+    },
+    "channels": {
+        "ttchannel": {
+            "orderers": [
+                "orderer0.vodworks.com",
+                "orderer1.vodworks.com"
+            ],
+            "peers": {
+                "peer0.telco1.vodworks.com": {
+                    "endorsingPeer": true,
+                    "chaincodeQuery": true,
+                    "eventSource": true
+                },
+                "peer1.telco1.vodworks.com": {
+                    "endorsingPeer": true,
+                    "chaincodeQuery": true,
+                    "eventSource": true
+                },
+                "peer0.telco2.vodworks.com": {
+                    "endorsingPeer": true,
+                    "chaincodeQuery": true,
+                    "eventSource": true
+                },
+                "peer1.telco2.vodworks.com": {
+                    "endorsingPeer": true,
+                    "chaincodeQuery": true,
+                    "eventSource": true
+                },
+                "peer2.telco2.vodworks.com": {
+                    "endorsingPeer": true,
+                    "chaincodeQuery": true,
+                    "eventSource": true
+                }                         
+            }
+        }
+    },
+    "organizations": {
+        "Telco1": {
+            "mspid": "Telco1MSP",
+            "peers": [
+                "peer0.telco1.vodworks.com",
+                "peer1.telco1.vodworks.com"
+            ],
+            "certificateAuthorities": [
+                "ca.telco1.vodworks.com"
+            ]
+        },
+        "Telco2": {
+            "mspid": "Telco2MSP",
+            "peers": [
+                "peer0.telco2.vodworks.com",
+                "peer1.telco2.vodworks.com",
+                "peer2.telco2.vodworks.com"
+            ],
+            "certificateAuthorities": [
+                "ca.telco2.vodworks.com"
+            ]
+        }
+    },
+    "orderers": {
+        "orderer0.vodworks.com": {
+            "url": "grpcs://localhost:7050",
+            "grpcOptions": {
+                "ssl-target-name-override": "orderer0.vodworks.com"
+            },
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICRzCCAe2gAwIBAgIQZmO0kgckCWRR+EUu5BdUqjAKBggqhkjOPQQDAjBuMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEVMBMGA1UEChMMdm9kd29ya3MuY29tMRswGQYDVQQDExJ0bHNjYS52\nb2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkwNDA2MTI0MzAwWjBuMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEVMBMGA1UEChMMdm9kd29ya3MuY29tMRswGQYDVQQDExJ0bHNjYS52\nb2R3b3Jrcy5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASzWZybFF9luBHb\n8NlZJSa7nD/fc9AtPEYbSOusZ4kdFaFIEciqAuuNTFV8EbWblYcvexsoyQKuXPb5\n0T970cJjo20wazAOBgNVHQ8BAf8EBAMCAaYwHQYDVR0lBBYwFAYIKwYBBQUHAwIG\nCCsGAQUFBwMBMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIMmodv9bwPA1ojzJ\n5Yr5i8WEWxCxHXLACP0BkVy7SSLxMAoGCCqGSM49BAMCA0gAMEUCIQCLgXOhEZRT\nHXIaj9/ETZ+qbqzAZdR4XvAOHibbkjv8swIgUpQ6nkgha/PmlTGwa4twWJuaRSQL\nAWPLRlxSscG55pQ=\n-----END CERTIFICATE-----\n"
+            }
+        },
+        "orderer1.vodworks.com": {
+            "url": "grpcs://localhost:7040",
+            "grpcOptions": {
+                "ssl-target-name-override": "orderer1.vodworks.com"
+            },
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICRzCCAe2gAwIBAgIQZmO0kgckCWRR+EUu5BdUqjAKBggqhkjOPQQDAjBuMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEVMBMGA1UEChMMdm9kd29ya3MuY29tMRswGQYDVQQDExJ0bHNjYS52\nb2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkwNDA2MTI0MzAwWjBuMQsw\nCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEWMBQGA1UEBxMNU2FuIEZy\nYW5jaXNjbzEVMBMGA1UEChMMdm9kd29ya3MuY29tMRswGQYDVQQDExJ0bHNjYS52\nb2R3b3Jrcy5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAASzWZybFF9luBHb\n8NlZJSa7nD/fc9AtPEYbSOusZ4kdFaFIEciqAuuNTFV8EbWblYcvexsoyQKuXPb5\n0T970cJjo20wazAOBgNVHQ8BAf8EBAMCAaYwHQYDVR0lBBYwFAYIKwYBBQUHAwIG\nCCsGAQUFBwMBMA8GA1UdEwEB/wQFMAMBAf8wKQYDVR0OBCIEIMmodv9bwPA1ojzJ\n5Yr5i8WEWxCxHXLACP0BkVy7SSLxMAoGCCqGSM49BAMCA0gAMEUCIQCLgXOhEZRT\nHXIaj9/ETZ+qbqzAZdR4XvAOHibbkjv8swIgUpQ6nkgha/PmlTGwa4twWJuaRSQL\nAWPLRlxSscG55pQ=\n-----END CERTIFICATE-----\n"
+            }
+        }
+    },
+    "peers": {
+        "peer0.telco1.vodworks.com": {
+            "url": "grpcs://localhost:7051",
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.telco1.vodworks.com"
+            },
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICZDCCAgqgAwIBAgIRAJW1e4Qc7JEp/KuLemVriQ4wCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE3RlbGNvMS52b2R3b3Jrcy5jb20xIjAgBgNVBAMT\nGXRsc2NhLnRlbGNvMS52b2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkw\nNDA2MTI0MzAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTdGVsY28xLnZvZHdvcmtz\nLmNvbTEiMCAGA1UEAxMZdGxzY2EudGVsY28xLnZvZHdvcmtzLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABEJyBuUc2B7vn/8oHx81bap2Yhh6r9wcdmH+PARF\nblfrlON5VQ/3H2NC9toGKgkZ36KNO8+WRb6pxnzCZLqygHujbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQggkK4ehADN/U7fouHM/ZW9VzC/w0rs3mkZ2pS5TGA\nLXIwCgYIKoZIzj0EAwIDSAAwRQIhANISiTHblkOyEk0cos7YdfLQDwDzYbxHyfDA\ne/0Jk2PkAiBDQMf57uz5ro9OTuMh4iBI/ShXuGv0iQlNi+YrW1ATZA==\n-----END CERTIFICATE-----\n"
+            }
+        },
+        "peer1.telco1.vodworks.com": {
+            "url": "grpcs://localhost:8051",
+            "grpcOptions": {
+                "ssl-target-name-override": "peer1.telco1.vodworks.com"
+            },
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICZDCCAgqgAwIBAgIRAJW1e4Qc7JEp/KuLemVriQ4wCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE3RlbGNvMS52b2R3b3Jrcy5jb20xIjAgBgNVBAMT\nGXRsc2NhLnRlbGNvMS52b2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkw\nNDA2MTI0MzAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTdGVsY28xLnZvZHdvcmtz\nLmNvbTEiMCAGA1UEAxMZdGxzY2EudGVsY28xLnZvZHdvcmtzLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABEJyBuUc2B7vn/8oHx81bap2Yhh6r9wcdmH+PARF\nblfrlON5VQ/3H2NC9toGKgkZ36KNO8+WRb6pxnzCZLqygHujbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQggkK4ehADN/U7fouHM/ZW9VzC/w0rs3mkZ2pS5TGA\nLXIwCgYIKoZIzj0EAwIDSAAwRQIhANISiTHblkOyEk0cos7YdfLQDwDzYbxHyfDA\ne/0Jk2PkAiBDQMf57uz5ro9OTuMh4iBI/ShXuGv0iQlNi+YrW1ATZA==\n-----END CERTIFICATE-----\n"
+            }
+        },
+        "peer0.telco2.vodworks.com": {
+            "url": "grpcs://localhost:9051",
+            "grpcOptions": {
+                "ssl-target-name-override": "peer0.telco2.vodworks.com"
+            },
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICZDCCAgqgAwIBAgIRAKzrdJfA+NYpehryBYGmrYIwCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE3RlbGNvMi52b2R3b3Jrcy5jb20xIjAgBgNVBAMT\nGXRsc2NhLnRlbGNvMi52b2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkw\nNDA2MTI0MzAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTdGVsY28yLnZvZHdvcmtz\nLmNvbTEiMCAGA1UEAxMZdGxzY2EudGVsY28yLnZvZHdvcmtzLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABJ1Ui27XJmUT4VFIhCR3TBb6+dBBkarOJN+FWDss\nSdkyXVT8TBc5FrrxoDbhb6Qh+k5qRpsLZRCobZk7m9OxXoCjbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQg/jqLpEih6wPwWDK+0EjuvRCCLJ1rmewOdPTBmoXL\nWhwwCgYIKoZIzj0EAwIDSAAwRQIhAPKHNjey+8xZJqsrHVy+hhKRr+IkeL8AYq88\npuLJZQsmAiBYN/BMyY3meKRNdrOwKAri7pSeNUl9I5Atq/2s7mALdA==\n-----END CERTIFICATE-----\n"
+            }
+        },
+        "peer1.telco2.vodworks.com": {
+            "url": "grpcs://localhost:10051",
+            "grpcOptions": {
+                "ssl-target-name-override": "peer1.telco2.vodworks.com"
+            },
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICZDCCAgqgAwIBAgIRAKzrdJfA+NYpehryBYGmrYIwCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE3RlbGNvMi52b2R3b3Jrcy5jb20xIjAgBgNVBAMT\nGXRsc2NhLnRlbGNvMi52b2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkw\nNDA2MTI0MzAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTdGVsY28yLnZvZHdvcmtz\nLmNvbTEiMCAGA1UEAxMZdGxzY2EudGVsY28yLnZvZHdvcmtzLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABJ1Ui27XJmUT4VFIhCR3TBb6+dBBkarOJN+FWDss\nSdkyXVT8TBc5FrrxoDbhb6Qh+k5qRpsLZRCobZk7m9OxXoCjbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQg/jqLpEih6wPwWDK+0EjuvRCCLJ1rmewOdPTBmoXL\nWhwwCgYIKoZIzj0EAwIDSAAwRQIhAPKHNjey+8xZJqsrHVy+hhKRr+IkeL8AYq88\npuLJZQsmAiBYN/BMyY3meKRNdrOwKAri7pSeNUl9I5Atq/2s7mALdA==\n-----END CERTIFICATE-----\n"
+            }
+        },
+        "peer2.telco2.vodworks.com": {
+            "url": "grpcs://localhost:11051",
+            "grpcOptions": {
+            "ssl-target-name-override": "peer2.telco2.vodworks.com"
+            },
+            "tlsCACerts": {
+                "pem": "-----BEGIN CERTIFICATE-----\nMIICZDCCAgqgAwIBAgIRAKzrdJfA+NYpehryBYGmrYIwCgYIKoZIzj0EAwIwfDEL\nMAkGA1UEBhMCVVMxEzARBgNVBAgTCkNhbGlmb3JuaWExFjAUBgNVBAcTDVNhbiBG\ncmFuY2lzY28xHDAaBgNVBAoTE3RlbGNvMi52b2R3b3Jrcy5jb20xIjAgBgNVBAMT\nGXRsc2NhLnRlbGNvMi52b2R3b3Jrcy5jb20wHhcNMTkwNDA5MTI0MzAwWhcNMjkw\nNDA2MTI0MzAwWjB8MQswCQYDVQQGEwJVUzETMBEGA1UECBMKQ2FsaWZvcm5pYTEW\nMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzEcMBoGA1UEChMTdGVsY28yLnZvZHdvcmtz\nLmNvbTEiMCAGA1UEAxMZdGxzY2EudGVsY28yLnZvZHdvcmtzLmNvbTBZMBMGByqG\nSM49AgEGCCqGSM49AwEHA0IABJ1Ui27XJmUT4VFIhCR3TBb6+dBBkarOJN+FWDss\nSdkyXVT8TBc5FrrxoDbhb6Qh+k5qRpsLZRCobZk7m9OxXoCjbTBrMA4GA1UdDwEB\n/wQEAwIBpjAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwEwDwYDVR0TAQH/\nBAUwAwEB/zApBgNVHQ4EIgQg/jqLpEih6wPwWDK+0EjuvRCCLJ1rmewOdPTBmoXL\nWhwwCgYIKoZIzj0EAwIDSAAwRQIhAPKHNjey+8xZJqsrHVy+hhKRr+IkeL8AYq88\npuLJZQsmAiBYN/BMyY3meKRNdrOwKAri7pSeNUl9I5Atq/2s7mALdA==\n-----END CERTIFICATE-----\n"
+            }
+        }        
+    },
+    "certificateAuthorities": {
+        "ca.telco1.vodworks.com": {
+            "url": "https://localhost:7054",
+            "caName": "ca-telco1",
+            "httpOptions": {
+                "verify": false
+            }
+        },
+        "ca.telco2.vodworks.com": {
+            "url": "https://localhost:8054",
+            "caName": "ca-telco2",
+            "httpOptions": {
+                "verify": false
+            }
+        }
+    }
+}

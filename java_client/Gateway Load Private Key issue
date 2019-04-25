@@ -1,0 +1,98 @@
+InvalidKeySpecException: java.security.InvalidKeyException: Invalid RSA private key
+Version must be 0
+PemGenerationException: unknown object passed - can't encode.
+
+                            ---------------------------------------------------
+
+System.out.println(pemFile.toString());
+
+byte[] keyDataBytes = Files.readAllBytes(Paths.get(pemFile.toString()));
+
+String keyDataString = new String(keyDataBytes, StandardCharsets.UTF_8);
+keyDataString = keyDataString.replace("-----BEGIN PRIVATE KEY-----", "");
+keyDataString = keyDataString.replace("-----END PRIVATE KEY-----", "");
+
+KeyFactory keyFactory = KeyFactory.getInstance("RSA", "SunRsaSign");
+PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(Base64.decodeBase64(keyDataString));
+
+return keyFactory.generatePrivate(keySpec);
+        
+--------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------
+
+InvalidKeySpecException: encoded key spec not recognized: null
+PemGenerationException: unknown object passed - can't encode.
+
+                            ---------------------------------------------------                            
+
+Security.addProvider(new BouncyCastleProvider());
+byte[] keyDataBytes = Files.readAllBytes(Paths.get(pemFile.toString()));
+String keyDataString = new String(keyDataBytes, StandardCharsets.UTF_8);
+keyDataString = keyDataString.replace("-----BEGIN PRIVATE KEY-----", "");
+keyDataString = keyDataString.replace("-----END PRIVATE KEY-----", "");
+
+byte[] server_sec1 = DatatypeConverter.parseBase64Binary(keyDataString);
+ASN1Sequence seq = ASN1Sequence.getInstance(server_sec1);
+org.bouncycastle.asn1.sec.ECPrivateKey pKey = org.bouncycastle.asn1.sec.ECPrivateKey.getInstance(seq);
+AlgorithmIdentifier algId = new AlgorithmIdentifier(X9ObjectIdentifiers.id_ecPublicKey, pKey.getParameters());
+byte[] server_pkcs8 = new PrivateKeyInfo(algId, pKey).getEncoded();
+KeyFactory fact = KeyFactory.getInstance("EC", "BC");
+
+return fact.generatePrivate(new PKCS8EncodedKeySpec(server_pkcs8));
+
+--------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------
+
+org.hyperledger.fabric.gateway.GatewayException: org.bouncycastle.openssl.PEMException: unable to convert key pair: java.security.InvalidKeyException: EC domain parameters must be encoded in the algorithm identifier
+
+org.bouncycastle.openssl.PEMException: unable to convert key pair: java.security.InvalidKeyException: EC domain parameters must be encoded in the algorithm identifier
+
+java.security.spec.InvalidKeySpecException: java.security.InvalidKeyException: EC domain parameters must be encoded in the algorithm identifier
+
+java.security.InvalidKeyException: EC domain parameters must be encoded in the algorithm identifier
+
+                            ---------------------------------------------------                                        
+
+PEMParser parser = new PEMParser(Files.newBufferedReader(pemFile));
+Object key = parser.readObject();
+
+JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+
+if (key instanceof PrivateKeyInfo) {
+    return converter.getPrivateKey((PrivateKeyInfo) key);
+} else {
+    return converter.getPrivateKey(((PEMKeyPair) key).getPrivateKeyInfo());
+}
+                
+--------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------
+
+IllegalArgumentException: failed to construct sequence from byte[]: Extra data detected in stream
+
+                            ---------------------------------------------------                                        
+                            
+Security.addProvider(new BouncyCastleProvider());
+
+java.security.spec.InvalidKeySpecException: encoded key spec not recognized: algorithm identifier 1.3.6.1.5.5.7 in key not recognised (if lines not commented out)
+
+byte[] keyDataBytes = Files.readAllBytes(Paths.get(pemFile.toString()));
+String keyDataString = new String(keyDataBytes, StandardCharsets.UTF_8);
+//keyDataString = keyDataString.replace("-----BEGIN PRIVATE KEY-----", "");
+//keyDataString = keyDataString.replace("-----END PRIVATE KEY-----", "");
+
+byte[] server_sec1 = DatatypeConverter.parseBase64Binary(keyDataString);
+ASN1Sequence seq = ASN1Sequence.getInstance(server_sec1);
+org.bouncycastle.asn1.sec.ECPrivateKey pKey = org.bouncycastle.asn1.sec.ECPrivateKey.getInstance(seq);
+
+AlgorithmIdentifier algId = new AlgorithmIdentifier(X509ObjectIdentifiers.id_pkix, pKey.getParameters());
+byte[] server_pkcs8 = new PrivateKeyInfo(algId, pKey).getEncoded();
+
+KeyFactory fact = KeyFactory.getInstance("EC", "BC");
+
+return fact.generatePrivate(new PKCS8EncodedKeySpec(server_pkcs8));
+
+--------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------
+
+
+                            ---------------------------------------------------                                        
